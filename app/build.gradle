@@ -19,9 +19,12 @@ android {
     }
 }
 
+
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     testCompile 'junit:junit:4.12'
+    compile 'com.github.felHR85:UsbSerial:4.5'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
@@ -33,4 +36,5 @@ dependencies {
     compile 'com.parse:parseui-login-android:0.0.1'
     compile 'com.parse:parseui-widget-android:0.0.1'
     compile 'com.google.guava:guava:19.0'
+    compile 'com.jjoe64:graphview:4.2.1'
 }
