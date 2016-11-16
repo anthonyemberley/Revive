@@ -311,6 +311,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    public void startTutorial(View view) {
+        Intent intent = new Intent(this, FirstTutorialScreen.class);
+        startActivity(intent);
+    }
+
     public void onClickClear(View view) {
         textView.setText(" ");
         graphLastXValue += .1;
