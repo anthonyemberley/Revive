@@ -133,12 +133,17 @@ import android.widget.TextView;
 
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
+import com.helge.arrhythmiapt.osea.OSEAFactory;
+import com.helge.arrhythmiapt.osea.classification.BeatDetectionAndClassification;
+import com.helge.arrhythmiapt.osea.classification.ECGCODES;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
@@ -148,12 +153,42 @@ public class LoginActivity extends AppCompatActivity {
     private double graphLastYValue = 0d;
     public final String ACTION_USB_PERMISSION = "com.a2009pink.revive.USB_PERMISSION";
     Button startButton, sendButton, clearButton, stopButton;
-    TextView textView;
+    TextView textView, ECGClassTextView;
     EditText editText;
     UsbManager usbManager;
     UsbDevice device;
     UsbSerialDevice serialPort;
     UsbDeviceConnection connection;
+    int points = 1;
+    List<Integer> pointList;
+    int numberOfPoints = 10000;
+    DataPoint[] dataPoints = new DataPoint[numberOfPoints];
+    byte[] byteArray = new byte[numberOfPoints];
+    int[] intECGArray = new int[numberOfPoints];
+
+
+    private void QRSClassification(int[] ecgSamples) {
+        int sampleRate = 990;
+        tvAppend(ECGClassTextView, "successfully got to QRSclass method");
+        BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);
+        for (int i = 0; i < ecgSamples.length; i++) {
+            BeatDetectionAndClassification.BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(ecgSamples[i]);
+            if (result.samplesSinceRWaveIfSuccess != 0) {
+                int qrsPosition =  i - result.samplesSinceRWaveIfSuccess;
+                if (result.beatType == ECGCODES.UNKNOWN) {
+                    tvAppend(ECGClassTextView, "A unknown beat type was detected at sample: " + qrsPosition);
+                    System.out.println("A unknown beat type was detected at sample: " + qrsPosition);
+                } else if (result.beatType == ECGCODES.NORMAL) {
+                    tvAppend(ECGClassTextView, "A normal beat type was detected at sample: " + qrsPosition);
+                    System.out.println("A normal beat type was detected at sample: " + qrsPosition);
+                } else if (result.beatType == ECGCODES.PVC) {
+                    tvAppend(ECGClassTextView, "A premature ventricular contraction was detected at sample: " + qrsPosition);
+                    System.out.println("A premature ventricular contraction was detected at sample: " + qrsPosition);
+                }
+            }
+        }
+
+    }
 
 
     UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() { //Defining a Callback which triggers whenever data is read.
@@ -161,23 +196,64 @@ public class LoginActivity extends AppCompatActivity {
         public void onReceivedData(byte[] arg0) {
             String data = null;
             Integer dataInt = null;
-            try {
-                data = new String(arg0, "UTF-8");
-                //data.concat("/n");
+            int pointsMod = points % numberOfPoints;
+
+
+
+
+            if (points < numberOfPoints ){
                 try {
-                    dataInt = Integer.parseInt(data);
+                    data = new String(arg0, "UTF-8");
+                    data.concat("/n");
+                    try {
+                        dataInt = Integer.parseInt(data);
+                        intECGArray[points-1] = dataInt;
+//                        pointList.add(dataInt);
+                        //mSeries.appendData(new DataPoint(graphLastXValue, dataInt), true, 1000);
+                    } catch(NumberFormatException e) {
+                    } catch(NullPointerException e) {
+                    }
 
-                    graphLastXValue += 1d;
-                    mSeries.appendData(new DataPoint(graphLastXValue, dataInt), true, 1000);
-                } catch(NumberFormatException e) {
-                } catch(NullPointerException e) {
+                    tvAppend(textView, data);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
                 }
-
-                tvAppend(textView, data);
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            } else if(points == numberOfPoints){
+//                Double count = 0d;
+//                DataPoint[] values = new DataPoint[points];
+//                for(int i = 0; i < values.length ; i++){
+//                    int value = pointList.get(i);
+//                    values[i] = new DataPoint(count, value);
+//                    count +=1;
+//                }
+//                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(values);
+//                GraphView graph = (GraphView) findViewById(R.id.graph);
+//                graph.addSeries(series);
+                QRSClassification(intECGArray);
             }
 
+//            try {
+//                data = new String(arg0, "UTF-8");
+//                //data.concat("/n");
+//                try {
+//                    dataInt = Integer.parseInt(data);
+//                    points +=1;
+//                    graphLastXValue += .1d;
+//                    //pointList.add(dataInt);
+//                    int pointsMod = points % numberOfPoints -1;
+//                    dataPoints[pointsMod] = new DataPoint(pointsMod, dataInt);
+//                    //mSeries.appendData(new DataPoint(graphLastXValue, dataInt), true, 1000);
+//                } catch(NumberFormatException e) {
+//                } catch(NullPointerException e) {
+//                }
+//
+//                tvAppend(textView, data);
+//            } catch (UnsupportedEncodingException e) {
+//                e.printStackTrace();
+//            }
+//            if(points > 1000) {
+//                mSeries.resetData(dataPoints);
+//            }
 
         }
     };
@@ -231,6 +307,8 @@ public class LoginActivity extends AppCompatActivity {
         stopButton = (Button) findViewById(R.id.buttonStop);
         editText = (EditText) findViewById(R.id.editText);
         textView = (TextView) findViewById(R.id.textView);
+        ECGClassTextView = (TextView) findViewById(R.id.ECGClassTextView);
+
         setUiEnabled(false);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_PERMISSION);
@@ -238,18 +316,18 @@ public class LoginActivity extends AppCompatActivity {
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
         registerReceiver(broadcastReceiver, filter);
 
-        GraphView graph = (GraphView) findViewById(R.id.graph);
-        mSeries = new LineGraphSeries<>();
-        System.out.println(graph.getViewport().getMaxX(true));
-        System.out.println("hello");
-        graph.getViewport().setXAxisBoundsManual(true);
-        graph.getViewport().setYAxisBoundsManual(true);
-        graph.getViewport().setMinX(0);
-        graph.getViewport().setMaxX(40);
-        graph.getViewport().setMinY(0);
-        graph.getViewport().setMaxY(1024);
-        graph.addSeries(mSeries);
-        System.out.println(graph.getSeries());
+//        GraphView graph = (GraphView) findViewById(R.id.graph);
+//        mSeries = new LineGraphSeries<>();
+//        System.out.println(graph.getViewport().getMaxX(true));
+//        System.out.println("hello");
+//        graph.getViewport().setXAxisBoundsManual(true);
+//        graph.getViewport().setYAxisBoundsManual(true);
+//        graph.getViewport().setMinX(0);
+//        graph.getViewport().setMaxX(1000);
+//        graph.getViewport().setMinY(0);
+//        graph.getViewport().setMaxY(1024);
+//        graph.addSeries(mSeries);
+//        System.out.println(graph.getSeries());
 
 //        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
 //                new DataPoint(0, 1),
@@ -273,6 +351,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onClickStart(View view) {
 
+        pointList = new ArrayList<Integer>();
         HashMap<String, UsbDevice> usbDevices = usbManager.getDeviceList();
         if (!usbDevices.isEmpty()) {
             boolean keep = true;
@@ -318,9 +397,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onClickClear(View view) {
         textView.setText(" ");
-        graphLastXValue += .1;
-        graphLastYValue += .1;
-        mSeries.appendData(new DataPoint(graphLastXValue, graphLastYValue), true, 40);
+//        graphLastXValue += .1;
+//        graphLastYValue += .1;
+//        mSeries.appendData(new DataPoint(graphLastXValue, graphLastYValue), true, 40);
 
     }
 
