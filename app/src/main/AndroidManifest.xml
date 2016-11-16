@@ -47,7 +47,25 @@
         <activity
             android:name=".Notes.SymptomActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".FirstTutorialScreen"></activity>
+        <activity android:name=".FirstTutorialScreen" />
+        <activity android:name=".e01StayCalmCalling" />
+        <activity android:name=".e02ConnectPhone" />
+        <activity android:name=".e03RemovePads" />
+        <activity android:name=".e04CheckPads" />
+        <activity android:name=".e05KidOrAdult" />
+        <activity android:name=".e08_1AdultPads" />
+        <activity android:name=".e06ExposeChest" />
+        <activity android:name=".e07PrepPads" />
+        <activity android:name=".e08_2KidPads" />
+        <activity android:name=".e09Analyzing" />
+        <activity android:name=".e10_1ReadyToShock" />
+        <activity android:name=".e10_2ShockDelivered" />
+        <activity android:name=".e10_3PostShockCPR" />
+        <activity android:name=".e11NoShockCPR" />
+        <activity android:name=".c01FirstHand" />
+        <activity android:name=".c02SecondHand" />
+        <activity android:name=".c03PressMotion" />
+        <activity android:name=".c04PressAndRepeat"></activity>
     </application>
 
 </manifest>
