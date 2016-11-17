@@ -14,8 +14,29 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/e05kidoradult"
+        app:srcCompat="@drawable/e05kidadult"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/imageView5" />
+        android:id="@+id/imageView23" />
+
+    <Button
+        android:layout_width="240dp"
+        android:id="@+id/isadult"
+        android:layout_marginBottom="144dp"
+        android:background="@null"
+        android:onClick="isadult"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/iskid" />
+
+    <Button
+        android:id="@+id/iskid"
+        android:background="@null"
+        android:onClick="iskid"
+        android:layout_marginBottom="46dp"
+        android:layout_height="120dp"
+        android:layout_width="240dp"
+        android:layout_above="@+id/isadult"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
