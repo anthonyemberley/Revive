@@ -71,21 +71,26 @@
         android:layout_toEndOf="@+id/buttonStop"
         android:onClick="onClickClear"/>
 
-    <com.jjoe64.graphview.GraphView
-        android:layout_width="match_parent"
-        android:layout_height="200dip"
-        android:id="@+id/graph"
-        android:layout_below="@+id/buttonStart"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/buttonSend"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="37dp" />
+        android:layout_alignRight="@+id/editText"
+        android:layout_alignEnd="@+id/editText"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/ECGClassTextView" />
+        android:id="@+id/ECGClassTextView" />
 
     <Button
         android:text="Start Tutorial"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/graph"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp"
         android:onClick="startTutorial"
-        android:id="@+id/startTutorial" />
+        android:id="@+id/startTutorial"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="13dp" />
 </RelativeLayout>
