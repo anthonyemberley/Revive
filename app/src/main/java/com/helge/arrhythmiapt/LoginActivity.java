@@ -242,19 +242,20 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-            if (points < numberOfPoints ){
+           // if (points < numberOfPoints ){
                 try {
                     data = new String(arg0, "UTF-8");
-                    dataInt = Integer.parseInt(data.trim());
-                    intECGArray[points-1] = dataInt;
-                    points += 1;
+                    //data.concat("/n");
+//                    dataInt = Integer.parseInt(data.trim());
+//                    intECGArray[points-1] = dataInt;
+//                    points += 1;
                     tvAppend(textView, data);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }catch(NumberFormatException e) {
                 } catch(NullPointerException e) {
                 }
-            } else if(points == numberOfPoints){
+            //} else if(points == numberOfPoints){
 //                Double count = 0d;
 //                DataPoint[] values = new DataPoint[points];
 //                for(int i = 0; i < values.length ; i++){
@@ -265,11 +266,11 @@ public class LoginActivity extends AppCompatActivity {
 //                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(values);
 //                GraphView graph = (GraphView) findViewById(R.id.graph);
 //                graph.addSeries(series);
-                numberOfSamples.setText("heyyyyy");
-                QRSClassification(intECGArray);
-            } else{
+            //    numberOfSamples.setText("heyyyyy");
+              //  QRSClassification(intECGArray);
+           // } else{
 
-            }
+          //  }
 
 //            try {
 //                data = new String(arg0, "UTF-8");
@@ -398,15 +399,16 @@ public class LoginActivity extends AppCompatActivity {
             for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
                 device = entry.getValue();
                 int deviceVID = device.getVendorId();
-                if (deviceVID == 0x2341)//Arduino Vendor ID
-                {
+                //textView.setText(deviceVID);
+//                if (deviceVID == 0x2341)//Arduino Vendor ID
+//                {
                     PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
                     usbManager.requestPermission(device, pi);
                     keep = false;
-                } else {
-                    connection = null;
-                    device = null;
-                }
+                //} else {
+                 //   connection = null;
+                 //   device = null;
+                //}
 
                 if (!keep)
                     break;
@@ -425,7 +427,9 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onClickStop(View view) {
         setUiEnabled(false);
-        serialPort.close();
+        if(serialPort != null){
+            serialPort.close();
+        }
         tvAppend(textView,"\nSerial Connection Closed! \n");
 
     }

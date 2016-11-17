@@ -4,6 +4,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
@@ -40,7 +41,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     String STATIC_ARDUINO_CODE = "0";
     String ECG_ARDUINO_CODE = "1";
     String CAPACITOR_ARDUINO_CODE = "2";
-    String DELIVER_SHOCK_ARDUINO_CODE = "5";
+    String DELIVER_SHOCK_ARDUINO_CODE = "3";
     private ArduinoState currentAndroidState = ArduinoState.STATIC;
 
 
@@ -53,7 +54,13 @@ public class ArduinoTestingActivity extends AppCompatActivity {
         ecgTextView = (TextView) findViewById(R.id.ecgTextView);
         capacitorTextView = (TextView) findViewById(R.id.capacitorTextView);
         deliverShockTextView = (TextView) findViewById(R.id.deliveredShockTextView);
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(ACTION_USB_PERMISSION);
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
+        filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+        registerReceiver(broadcastReceiver, filter);
 
+        startSerialConnection();
     }
 
 
@@ -77,10 +84,13 @@ public class ArduinoTestingActivity extends AppCompatActivity {
                 break;
         }
 
-        if(arduinoIsConnected){
-            serialPort.write(sendString.getBytes());
-            currentAndroidState = nextState;
-        }
+
+            if(serialPort != null){
+                serialPort.write(sendString.getBytes());
+                currentAndroidState = nextState;
+            }
+
+
 
     }
 
@@ -103,20 +113,19 @@ public class ArduinoTestingActivity extends AppCompatActivity {
                         break;
                     case DELIVER_SHOCK:
                         if (data.equals("1")){
-                            deliverShockTextView.setText("Shock Delivered");
+                            tvAppend(deliverShockButton,"Shock Delivered");
                         }else {
-                            deliverShockTextView.setText(("Shock Preparing"));
+                            tvAppend(deliverShockButton,"Shock Preparing");
                         }
                         break;
                     case CAPACITOR:
-                        capacitorTextView.setText(data);
-//                        if(data.equals("0")){
-//                            capacitorTextView.setText("Capacitor Not Charged");
-//                        }else if(data.equals("1")){
-//                            capacitorTextView.setText("Capacitor Almost Charged");
-//                        }else if(data.equals("2")){
-//                            capacitorTextView.setText("Capacitor Charged!");
-//                        }
+                        if(data.getBytes().equals("0".getBytes("UTF-8"))){
+                            tvAppend(capacitorTextView, "Capacitor Not Charged");
+                        }else if(data.getBytes().equals("1".getBytes("UTF-8"))){
+                            tvAppend(capacitorTextView, "Capacitor Almost Charged");
+                        }else if(data.getBytes().equals("2".getBytes("UTF-8"))){
+                            tvAppend(capacitorTextView, "Capacitor Charged!");
+                        }
                         break;
                     default:
                         break;
@@ -167,7 +176,9 @@ public class ArduinoTestingActivity extends AppCompatActivity {
 
     public void stopSerialConnection() {
         arduinoIsConnected = false;
-        serialPort.close();
+        if(serialPort != null){
+            serialPort.close();
+        }
     }
 
     public void startSerialConnection() {
@@ -177,22 +188,15 @@ public class ArduinoTestingActivity extends AppCompatActivity {
             boolean keep = true;
             for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
                 device = entry.getValue();
-                int deviceVID = device.getVendorId();
-                if (deviceVID == 0x6001)//Arduino Vendor ID
-                {
                     PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
                     usbManager.requestPermission(device, pi);
                     keep = false;
                     arduinoIsConnected = true;
-                } else {
-                    connection = null;
-                    device = null;
-                }
-
                 if (!keep)
                     break;
             }
         }
+        //arduinoIsConnected = true;
 
 
     }
@@ -201,13 +205,15 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     //BUTTON CODE
 
     public void ecgButtonPressed(View view) {
+        System.out.println("here");
         sendArduinoNextState(ArduinoState.ECG);
     }
     public void capacitorButtonPressed(View view) {
         sendArduinoNextState(ArduinoState.CAPACITOR);
     }
     public void deliverShockButtonPressed(View view) {
-        sendArduinoNextState(ArduinoState.DELIVER_SHOCK);
+        tvAppend(deliverShockButton,"Shock Delivered");
+        //sendArduinoNextState(ArduinoState.DELIVER_SHOCK);
     }
 
 
