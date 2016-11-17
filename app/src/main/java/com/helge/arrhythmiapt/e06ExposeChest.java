@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class e06ExposeChest extends AppCompatActivity {
 
@@ -52,5 +53,20 @@ public class e06ExposeChest extends AppCompatActivity {
                 finish();
             }
         }, pagetime);
+    }
+
+    public void gotoe05(View view) {
+        Intent intent = new Intent(this, e05KidOrAdult.class);
+        startActivity(intent);
+    }
+
+    public void gotoe07(View view) {
+        Intent intent = new Intent(this, e07PrepPads.class);
+        startActivity(intent);
+    }
+
+    public void gotob01(View view) {
+        Intent intent = new Intent(this, FirstTutorialScreen.class);
+        startActivity(intent);
     }
 }

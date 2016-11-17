@@ -95,7 +95,7 @@
         android:id="@+id/startTutorial"
         android:layout_above="@+id/numberOfSamples"
         android:layout_toStartOf="@+id/numberOfSamples"
-        android:layout_alignTop="@+id/button" />
+        android:layout_alignTop="@+id/gotob01" />
 
     <Button
         android:text="Start Testing"

@@ -5,11 +5,12 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class e12StartCPR extends AppCompatActivity {
 
     //Set variable for time to spend on this page
-    int pagetime = 4000; // in milliseconds
+    int pagetime = 5000; // in milliseconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,5 +33,15 @@ public class e12StartCPR extends AppCompatActivity {
                 finish();
             }
         }, pagetime);
+    }
+
+    public void gotoc01(View view) {
+        Intent intent = new Intent(this, c01FirstHand.class);
+        startActivity(intent);
+    }
+
+    public void gotob01(View view) {
+        Intent intent = new Intent(this, FirstTutorialScreen.class);
+        startActivity(intent);
     }
 }

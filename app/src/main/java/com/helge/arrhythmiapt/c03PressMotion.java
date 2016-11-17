@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class c03PressMotion extends AppCompatActivity {
 
@@ -32,5 +33,20 @@ public class c03PressMotion extends AppCompatActivity {
                 finish();
             }
         }, pagetime);
+    }
+
+    public void gotoc02(View view) {
+        Intent intent = new Intent(this, c02SecondHand.class);
+        startActivity(intent);
+    }
+
+    public void gotoc04(View view) {
+        Intent intent = new Intent(this, c04_1PerformingCPR.class);
+        startActivity(intent);
+    }
+
+    public void gotob01(View view) {
+        Intent intent = new Intent(this, FirstTutorialScreen.class);
+        startActivity(intent);
     }
 }

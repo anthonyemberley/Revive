@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class c02SecondHand extends AppCompatActivity {
 
@@ -32,5 +33,20 @@ public class c02SecondHand extends AppCompatActivity {
                 finish();
             }
         }, pagetime);
+    }
+
+    public void gotoc01(View view) {
+        Intent intent = new Intent(this, c01FirstHand.class);
+        startActivity(intent);
+    }
+
+    public void gotoc03(View view) {
+        Intent intent = new Intent(this, c03PressMotion.class);
+        startActivity(intent);
+    }
+
+    public void gotob01(View view) {
+        Intent intent = new Intent(this, FirstTutorialScreen.class);
+        startActivity(intent);
     }
 }

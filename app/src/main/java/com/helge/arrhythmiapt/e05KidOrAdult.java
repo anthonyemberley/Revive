@@ -24,4 +24,14 @@ public class e05KidOrAdult extends AppCompatActivity {
         intent.putExtra("KidOrAdult","adult");
         startActivity(intent);
     }
+
+    public void gotoe03(View view) {
+        Intent intent = new Intent(this, e03RemovePads.class);
+        startActivity(intent);
+    }
+
+    public void gotob01(View view) {
+        Intent intent = new Intent(this, FirstTutorialScreen.class);
+        startActivity(intent);
+    }
 }
