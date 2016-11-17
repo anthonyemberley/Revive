@@ -31,7 +31,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     public final String ACTION_USB_PERMISSION = "com.a2009pink.revive.USB_PERMISSION";
 
 
-    Button capacitorButton, ecgButton, deliverShockButton;
+    Button capacitorButton, ecgButton, deliverShockButton, clearButton;
     TextView ecgTextView, capacitorTextView, deliverShockTextView;
 
     public boolean arduinoIsConnected = false;
@@ -45,12 +45,20 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     private ArduinoState currentAndroidState = ArduinoState.STATIC;
 
 
+    int points = 1;
+    int numberOfPoints = 1000;
+    int[] ecgArray = new int[numberOfPoints];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arduino_testing);
 
         usbManager = (UsbManager) getSystemService(this.USB_SERVICE);
+        clearButton = (Button) findViewById(R.id.clearDataButton);
+        ecgButton = (Button) findViewById(R.id.ecgButton);
+        deliverShockButton = (Button) findViewById(R.id.deliverShockButton);
+        capacitorButton = (Button) findViewById(R.id.checkCapacitorButton);
         ecgTextView = (TextView) findViewById(R.id.ecgTextView);
         capacitorTextView = (TextView) findViewById(R.id.capacitorTextView);
         deliverShockTextView = (TextView) findViewById(R.id.deliveredShockTextView);
@@ -106,25 +114,32 @@ public class ArduinoTestingActivity extends AppCompatActivity {
             String data = null;
             try {
                 data = new String(arg0, "UTF-8");
+                data = data.trim();
                 switch (currentAndroidState) {
                     case ECG:
-                        data.concat(", ");
                         tvAppend(ecgTextView, data);
+//                        int dataInt = Integer.parseInt(data);
+//                        if(points < numberOfPoints){
+//                            ecgArray[points] = dataInt;
+//                        } else if(points == numberOfPoints){
+//                            ecgTextView.setText("nilla we made it");
+//                        }
+
                         break;
                     case DELIVER_SHOCK:
                         if (data.equals("1")){
-                            tvAppend(deliverShockButton,"Shock Delivered");
-                        }else {
-                            tvAppend(deliverShockButton,"Shock Preparing");
+                            tvSet(deliverShockTextView, "Shock Delivered");
+                        }else if (data.equals("0")){
+                            tvSet(deliverShockTextView, "Shock Preparing");
                         }
                         break;
                     case CAPACITOR:
-                        if(data.getBytes().equals("0".getBytes("UTF-8"))){
-                            tvAppend(capacitorTextView, "Capacitor Not Charged");
-                        }else if(data.getBytes().equals("1".getBytes("UTF-8"))){
-                            tvAppend(capacitorTextView, "Capacitor Almost Charged");
-                        }else if(data.getBytes().equals("2".getBytes("UTF-8"))){
-                            tvAppend(capacitorTextView, "Capacitor Charged!");
+                        if(data.equals("0")){
+                            tvSet(capacitorTextView, "Capacitor Not Charged");
+                        }else if(data.equals("1")){
+                            tvSet(capacitorTextView, "Capacitor Almost Charged");
+                        }else if(data.equals("2")){
+                            tvSet(capacitorTextView, "Capacitor Charged!");
                         }
                         break;
                     default:
@@ -133,6 +148,8 @@ public class ArduinoTestingActivity extends AppCompatActivity {
 
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
+            } catch(NumberFormatException e) {
+            } catch(NullPointerException e) {
             }
         }
     };
@@ -188,10 +205,18 @@ public class ArduinoTestingActivity extends AppCompatActivity {
             boolean keep = true;
             for (Map.Entry<String, UsbDevice> entry : usbDevices.entrySet()) {
                 device = entry.getValue();
-                    PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
-                    usbManager.requestPermission(device, pi);
-                    keep = false;
-                    arduinoIsConnected = true;
+                int deviceVID = device.getVendorId();
+                //textView.setText(deviceVID);
+//                if (deviceVID == 0x2341)//Arduino Vendor ID
+//                {
+                PendingIntent pi = PendingIntent.getBroadcast(this, 0, new Intent(ACTION_USB_PERMISSION), 0);
+                usbManager.requestPermission(device, pi);
+                keep = false;
+                //} else {
+                //   connection = null;
+                //   device = null;
+                //}
+
                 if (!keep)
                     break;
             }
@@ -209,13 +234,18 @@ public class ArduinoTestingActivity extends AppCompatActivity {
         sendArduinoNextState(ArduinoState.ECG);
     }
     public void capacitorButtonPressed(View view) {
+
         sendArduinoNextState(ArduinoState.CAPACITOR);
     }
     public void deliverShockButtonPressed(View view) {
-        tvAppend(deliverShockButton,"Shock Delivered");
-        //sendArduinoNextState(ArduinoState.DELIVER_SHOCK);
+
+
+        sendArduinoNextState(ArduinoState.DELIVER_SHOCK);
     }
 
+    public void clearDataPressed(View view) {
+        ecgTextView.setText("");
+    }
 
 
     //Helper Methods
@@ -227,6 +257,18 @@ public class ArduinoTestingActivity extends AppCompatActivity {
             @Override
             public void run() {
                 ftv.append(ftext);
+            }
+        });
+    }
+
+    private void tvSet(TextView tv, CharSequence text) {
+        final TextView ftv = tv;
+        final CharSequence ftext = text;
+
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ftv.setText(ftext);
             }
         });
     }

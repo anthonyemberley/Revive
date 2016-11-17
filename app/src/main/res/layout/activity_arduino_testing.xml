@@ -15,9 +15,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:id="@+id/button3"
+        android:id="@+id/checkCapacitorButton"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/button2"
+        android:layout_alignStart="@+id/deliverShockButton"
         android:onClick="capacitorButtonPressed" />
 
     <Button
@@ -26,8 +26,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="19dp"
         android:layout_marginTop="18dp"
-        android:id="@+id/button2"
-        android:layout_below="@+id/button3"
+        android:id="@+id/deliverShockButton"
+        android:layout_below="@+id/checkCapacitorButton"
         android:layout_alignParentStart="true"
         android:onClick="deliverShockButtonPressed" />
 
@@ -35,9 +35,9 @@
         android:text="Read ECG Data"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/button4"
-        android:layout_below="@+id/button2"
-        android:layout_alignStart="@+id/button2"
+        android:id="@+id/ecgButton"
+        android:layout_below="@+id/deliverShockButton"
+        android:layout_alignStart="@+id/deliverShockButton"
         android:layout_marginTop="24dp"
         android:onClick="ecgButtonPressed" />
 
@@ -45,8 +45,8 @@
         android:text="Capacitor Not Charged"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/button3"
-        android:layout_toEndOf="@+id/button3"
+        android:layout_alignBottom="@+id/checkCapacitorButton"
+        android:layout_toEndOf="@+id/checkCapacitorButton"
         android:layout_marginStart="26dp"
         android:layout_marginBottom="12dp"
         android:id="@+id/capacitorTextView" />
@@ -55,17 +55,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/deliveredShockTextView"
-        android:layout_alignBaseline="@+id/button2"
-        android:layout_alignBottom="@+id/button2"
+        android:layout_alignBaseline="@+id/deliverShockButton"
+        android:layout_alignBottom="@+id/deliverShockButton"
         android:layout_alignStart="@+id/capacitorTextView"
-        tools:text="TextView" />
+        android:text="Need Longer Filler Text?" />
 
     <TextView
         android:text="Testing"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/button3"
+        android:layout_toEndOf="@+id/checkCapacitorButton"
         android:id="@+id/textView8"
         android:textAppearance="@android:style/TextAppearance.DeviceDefault.Large" />
 
@@ -75,5 +75,15 @@
         android:id="@+id/ecgTextView"
         android:layout_height="325dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/button4" />
+        android:layout_alignStart="@+id/ecgButton" />
+
+    <Button
+        android:text="Clear Data"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/clearDataButton"
+        android:onClick="clearDataPressed"
+        android:layout_alignBaseline="@+id/ecgButton"
+        android:layout_alignBottom="@+id/ecgButton"
+        android:layout_alignStart="@+id/deliveredShockTextView" />
 </RelativeLayout>
