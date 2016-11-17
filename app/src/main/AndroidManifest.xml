@@ -68,7 +68,8 @@
         <activity android:name=".e12StartCPR" />
         <activity android:name=".e07PrepPads" />
         <activity android:name=".c04_1PerformingCPR" />
-        <activity android:name=".c04_2Checkmark"></activity>
+        <activity android:name=".c04_2Checkmark"/>
+        <activity android:name=".ArduinoTestingActivity"/>
     </application>
 
 </manifest>
