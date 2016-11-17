@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class e07PrepPads extends AppCompatActivity {
 
@@ -50,5 +51,33 @@ public class e07PrepPads extends AppCompatActivity {
                 }
             }
         }, pagetime);
+    }
+
+    public void gotoe08(View view) {
+        Bundle extras = getIntent().getExtras();
+        if(extras != null) {
+            String value = extras.getString("KidOrAdult");
+            kidOrAdult = value;
+        //The key argument here must match that used in the other activity
+        }
+        if (kidOrAdult.equals("kid")) {
+            final Intent mainIntent = new Intent(e07PrepPads.this, e08_2KidPads.class);
+            startActivity(mainIntent);
+            finish();
+        } else if (kidOrAdult.equals("adult")){
+            final Intent mainIntent = new Intent(e07PrepPads.this, e08_1AdultPads.class);
+            startActivity(mainIntent);
+            finish();
+        }
+    }
+
+    public void gotoe06(View view) {
+        Intent intent = new Intent(this, e06ExposeChest.class);
+        startActivity(intent);
+    }
+
+    public void gotob01(View view) {
+        Intent intent = new Intent(this, FirstTutorialScreen.class);
+        startActivity(intent);
     }
 }

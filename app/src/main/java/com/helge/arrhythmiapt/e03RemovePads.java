@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class e03RemovePads extends AppCompatActivity {
 
@@ -32,5 +33,15 @@ public class e03RemovePads extends AppCompatActivity {
                 finish();
             }
         }, pagetime);
+    }
+
+    public void gotoe02(View view) {
+        Intent intent = new Intent(this, e02ConnectPhone.class);
+        startActivity(intent);
+    }
+
+    public void gotoe05(View view) {
+        Intent intent = new Intent(this, e05KidOrAdult.class);
+        startActivity(intent);
     }
 }

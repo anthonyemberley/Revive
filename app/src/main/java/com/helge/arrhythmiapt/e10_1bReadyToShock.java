@@ -24,6 +24,11 @@ public class e10_1bReadyToShock extends AppCompatActivity {
         }
     }
 
+    public void gotob01(View view) {
+        Intent intent = new Intent(this, FirstTutorialScreen.class);
+        startActivity(intent);
+    }
+
     public void presstoshock(View view) {
         Intent intent = new Intent(this, e10_2ShockDelivered.class);
         startActivity(intent);
