@@ -58,14 +58,16 @@
         <activity android:name=".e07PrepPads" />
         <activity android:name=".e08_2KidPads" />
         <activity android:name=".e09Analyzing" />
-        <activity android:name=".e10_1ReadyToShock" />
+        <activity android:name=".e10_1bReadyToShock" />
         <activity android:name=".e10_2ShockDelivered" />
-        <activity android:name=".e10_3PostShockCPR" />
-        <activity android:name=".e11NoShockCPR" />
         <activity android:name=".c01FirstHand" />
         <activity android:name=".c02SecondHand" />
         <activity android:name=".c03PressMotion" />
-        <activity android:name=".c04PressAndRepeat"></activity>
+        <activity android:name=".c04PressAndRepeat" />
+        <activity android:name=".b02UseCase" />
+        <activity android:name=".e10_1aStandBack" />
+        <activity android:name=".e11NotAdvised" />
+        <activity android:name=".e12StartCPR"></activity>
     </application>
 
 </manifest>
