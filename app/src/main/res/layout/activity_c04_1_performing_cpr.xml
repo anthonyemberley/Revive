@@ -28,4 +28,13 @@
         android:background="@null"
         android:onClick="homeButtonPressed"
         android:id="@+id/homeButton" />
+
+    <ImageView
+        app:srcCompat="@drawable/checkmark"
+        android:id="@+id/checkMarkImageView"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginBottom="192dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>
