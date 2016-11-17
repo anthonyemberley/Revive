@@ -25,21 +25,30 @@ public class e06ExposeChest extends AppCompatActivity {
             // mediaPlayer.setLooping(true);
         }
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String value = extras.getString("KidOrAdult");
-            kidOrAdult = value;
-            //The key argument here must match that used in the other activity
-        }
+        //System.out.println("here");
+
 
         //Set up the timer for staying on this page
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 final Intent mainIntent = new Intent(e06ExposeChest.this, e07PrepPads.class);
-                startActivity(mainIntent);
+
+                System.out.println("here2");
+                System.out.println("kidoradult in runnable:" + kidOrAdult);
+                Bundle extras = getIntent().getExtras();
+
+                if (extras != null) {
+                    String value = extras.getString("KidOrAdult");
+                    kidOrAdult = value;
+                    System.out.println(value);
+
+                    //The key argument here must match that used in the other activity
+                }
+
                 //Saves input from e05, the kid/adult option
                 mainIntent.putExtra("KidOrAdult",kidOrAdult);
+                startActivity(mainIntent);
                 finish();
             }
         }, pagetime);

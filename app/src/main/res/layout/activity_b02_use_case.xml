@@ -23,8 +23,8 @@
         android:layout_height="270dp" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:srcCompat="@drawable/b02usecase"
         android:id="@+id/imageView20"
         android:layout_alignParentTop="true"

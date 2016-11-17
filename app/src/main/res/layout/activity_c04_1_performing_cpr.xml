@@ -2,20 +2,20 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_c03_press_motion"
+    android:id="@+id/activity_c04_1_performing_cpr"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.helge.arrhythmiapt.c03PressMotion">
+    tools:context="com.helge.arrhythmiapt.c04_1PerformingCPR">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:srcCompat="@drawable/c03pressmotion"
+        app:srcCompat="@drawable/c04_1performingcpr"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/imageView18" />
+        android:id="@+id/imageView19" />
 </RelativeLayout>

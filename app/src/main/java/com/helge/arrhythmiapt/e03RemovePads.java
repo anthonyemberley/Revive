@@ -9,7 +9,7 @@ import android.os.Bundle;
 public class e03RemovePads extends AppCompatActivity {
 
     //Set variable for time to spend on this page
-    int pagetime = 8000; // in milliseconds
+    int pagetime = 5000; // in milliseconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class e03RemovePads extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(e03RemovePads.this, e04CheckPads.class);
+                final Intent mainIntent = new Intent(e03RemovePads.this, e05KidOrAdult.class);
                 startActivity(mainIntent);
                 finish();
             }
