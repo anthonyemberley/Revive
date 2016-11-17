@@ -131,6 +131,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
 import com.helge.arrhythmiapt.osea.OSEAFactory;
@@ -141,6 +142,7 @@ import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -153,7 +155,7 @@ public class LoginActivity extends AppCompatActivity {
     private double graphLastYValue = 0d;
     public final String ACTION_USB_PERMISSION = "com.a2009pink.revive.USB_PERMISSION";
     Button startButton, sendButton, clearButton, stopButton;
-    TextView textView, ECGClassTextView;
+    TextView textView, ECGClassTextView, numberOfSamples;
     EditText editText;
     UsbManager usbManager;
     UsbDevice device;
@@ -161,34 +163,74 @@ public class LoginActivity extends AppCompatActivity {
     UsbDeviceConnection connection;
     int points = 1;
     List<Integer> pointList;
-    int numberOfPoints = 10000;
+    int numberOfPoints = 1000;
     DataPoint[] dataPoints = new DataPoint[numberOfPoints];
     byte[] byteArray = new byte[numberOfPoints];
     int[] intECGArray = new int[numberOfPoints];
+    private enum ArduinoState {
+        STATIC, ECG, CAPACITOR, DELIVERSHOCK
+    }
+    String STATIC_ARDUINO_CODE = "0";
+    String ECG_ARDUINO_CODE = "1";
+    String CAPACITOR_ARDUINO_CODE = "2";
+    String DELIVER_SHOCK_ARDUINO_CODE = "3";
+    private ArduinoState currentAndroidState = ArduinoState.STATIC;
 
 
     private void QRSClassification(int[] ecgSamples) {
         int sampleRate = 990;
         tvAppend(ECGClassTextView, "successfully got to QRSclass method");
-        BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);
-        for (int i = 0; i < ecgSamples.length; i++) {
-            BeatDetectionAndClassification.BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(ecgSamples[i]);
-            if (result.samplesSinceRWaveIfSuccess != 0) {
-                int qrsPosition =  i - result.samplesSinceRWaveIfSuccess;
-                if (result.beatType == ECGCODES.UNKNOWN) {
-                    tvAppend(ECGClassTextView, "A unknown beat type was detected at sample: " + qrsPosition);
-                    System.out.println("A unknown beat type was detected at sample: " + qrsPosition);
-                } else if (result.beatType == ECGCODES.NORMAL) {
-                    tvAppend(ECGClassTextView, "A normal beat type was detected at sample: " + qrsPosition);
-                    System.out.println("A normal beat type was detected at sample: " + qrsPosition);
-                } else if (result.beatType == ECGCODES.PVC) {
-                    tvAppend(ECGClassTextView, "A premature ventricular contraction was detected at sample: " + qrsPosition);
-                    System.out.println("A premature ventricular contraction was detected at sample: " + qrsPosition);
-                }
-            }
-        }
+//        BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);
+//        for (int i = 0; i < ecgSamples.length; i++) {
+//            BeatDetectionAndClassification.BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(ecgSamples[i]);
+//            if (result.samplesSinceRWaveIfSuccess != 0) {
+//                int qrsPosition =  i - result.samplesSinceRWaveIfSuccess;
+//                if (result.beatType == ECGCODES.UNKNOWN) {
+//                    tvAppend(ECGClassTextView, "A unknown beat type was detected at sample: " + qrsPosition);
+//                    System.out.println("A unknown beat type was detected at sample: " + qrsPosition);
+//                } else if (result.beatType == ECGCODES.NORMAL) {
+//                    tvAppend(ECGClassTextView, "A normal beat type was detected at sample: " + qrsPosition);
+//                    System.out.println("A normal beat type was detected at sample: " + qrsPosition);
+//                } else if (result.beatType == ECGCODES.PVC) {
+//                    tvAppend(ECGClassTextView, "A premature ventricular contraction was detected at sample: " + qrsPosition);
+//                    System.out.println("A premature ventricular contraction was detected at sample: " + qrsPosition);
+//                }
+//            }
+//        }
 
     }
+
+    private void sendArduinoNextState(ArduinoState nextState){
+        String sendString = "";
+        switch (nextState) {
+            case ECG:
+                sendString = ECG_ARDUINO_CODE;
+                break;
+            case DELIVERSHOCK:
+                sendString = DELIVER_SHOCK_ARDUINO_CODE;
+                break;
+            case STATIC:
+                sendString = STATIC_ARDUINO_CODE;
+                break;
+            case CAPACITOR:
+                sendString = CAPACITOR_ARDUINO_CODE;
+                break;
+            default:
+                break;
+        }
+
+        serialPort.write(sendString.getBytes());
+        currentAndroidState = nextState;
+    }
+
+
+    public void startTestingButtonPressed(View view) {
+        Intent intent = new Intent(this, ArduinoTestingActivity.class);
+        startActivity(intent);
+    }
+
+
+
 
 
     UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() { //Defining a Callback which triggers whenever data is read.
@@ -196,7 +238,6 @@ public class LoginActivity extends AppCompatActivity {
         public void onReceivedData(byte[] arg0) {
             String data = null;
             Integer dataInt = null;
-            int pointsMod = points % numberOfPoints;
 
 
 
@@ -204,19 +245,14 @@ public class LoginActivity extends AppCompatActivity {
             if (points < numberOfPoints ){
                 try {
                     data = new String(arg0, "UTF-8");
-                    data.concat("/n");
-                    try {
-                        dataInt = Integer.parseInt(data);
-                        intECGArray[points-1] = dataInt;
-//                        pointList.add(dataInt);
-                        //mSeries.appendData(new DataPoint(graphLastXValue, dataInt), true, 1000);
-                    } catch(NumberFormatException e) {
-                    } catch(NullPointerException e) {
-                    }
-
+                    dataInt = Integer.parseInt(data.trim());
+                    intECGArray[points-1] = dataInt;
+                    points += 1;
                     tvAppend(textView, data);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
+                }catch(NumberFormatException e) {
+                } catch(NullPointerException e) {
                 }
             } else if(points == numberOfPoints){
 //                Double count = 0d;
@@ -229,7 +265,10 @@ public class LoginActivity extends AppCompatActivity {
 //                LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(values);
 //                GraphView graph = (GraphView) findViewById(R.id.graph);
 //                graph.addSeries(series);
+                numberOfSamples.setText("heyyyyy");
                 QRSClassification(intECGArray);
+            } else{
+
             }
 
 //            try {
@@ -308,6 +347,7 @@ public class LoginActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.editText);
         textView = (TextView) findViewById(R.id.textView);
         ECGClassTextView = (TextView) findViewById(R.id.ECGClassTextView);
+        numberOfSamples = (TextView) findViewById(R.id.numberOfSamples);
 
         setUiEnabled(false);
         IntentFilter filter = new IntentFilter();

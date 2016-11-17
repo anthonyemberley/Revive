@@ -65,7 +65,8 @@
         <activity android:name=".c01FirstHand" />
         <activity android:name=".c02SecondHand" />
         <activity android:name=".c03PressMotion" />
-        <activity android:name=".c04PressAndRepeat"></activity>
+        <activity android:name=".c04PressAndRepeat" />
+        <activity android:name=".ArduinoTestingActivity"></activity>
     </application>
 
 </manifest>
