@@ -37,4 +37,14 @@
         android:layout_marginBottom="192dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="6dp"
+        android:background="@null"
+        android:onClick="gotoc03"
+        android:id="@+id/button2" />
 </RelativeLayout>

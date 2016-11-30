@@ -11,6 +11,8 @@ public class c01FirstHand extends AppCompatActivity {
 
     //Set variable for time to spend on this page
     int pagetime = 5000; // in milliseconds
+    boolean toNextScreen = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +30,27 @@ public class c01FirstHand extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(c01FirstHand.this, c02SecondHand.class);
-                startActivity(mainIntent);
-                finish();
+                if(!toNextScreen){
+                    final Intent mainIntent = new Intent(c01FirstHand.this, c02SecondHand.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
+
             }
         }, pagetime);
     }
 
     public void gotoc02(View view) {
         Intent intent = new Intent(this, c02SecondHand.class);
+        toNextScreen = true;
+
         startActivity(intent);
     }
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
+        toNextScreen = true;
+
         startActivity(intent);
     }
 }

@@ -33,16 +33,16 @@ public class c04_1PerformingCPR extends AppCompatActivity {
 //            mediaPlayer.setLooping(true);
 //        }
 
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e01staycalmcalling);
+        mediaPlayer = MediaPlayer.create(this, R.raw.cprbeep);
         if(!mediaPlayer.isPlaying()){
             mediaPlayer.start();
-            // mediaPlayer.setLooping(true);
+            mediaPlayer.setLooping(true);
         }
     }
 
     public void homeButtonPressed(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
-       // mediaPlayer.stop();
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
@@ -85,6 +85,12 @@ public class c04_1PerformingCPR extends AppCompatActivity {
         }else{
             mInterval = 200;
         }
+    }
+
+    public void gotoc03(View view) {
+        Intent intent = new Intent(this, c03PressMotion.class);
+        mediaPlayer.stop();
+        startActivity(intent);
     }
 
 

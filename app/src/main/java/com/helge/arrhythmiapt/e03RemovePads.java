@@ -10,8 +10,8 @@ import android.view.View;
 public class e03RemovePads extends AppCompatActivity {
 
     //Set variable for time to spend on this page
-    int pagetime = 5000; // in milliseconds
-
+    int pagetime = 8000; // in milliseconds
+    boolean toNextScreen = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,20 +28,24 @@ public class e03RemovePads extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(e03RemovePads.this, e05KidOrAdult.class);
-                startActivity(mainIntent);
-                finish();
+                if(!toNextScreen) {
+                    final Intent mainIntent = new Intent(e03RemovePads.this, e05KidOrAdult.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
             }
         }, pagetime);
     }
 
     public void gotoe02(View view) {
         Intent intent = new Intent(this, e02ConnectPhone.class);
+        toNextScreen = true;
         startActivity(intent);
     }
 
     public void gotoe05(View view) {
         Intent intent = new Intent(this, e05KidOrAdult.class);
+        toNextScreen = true;
         startActivity(intent);
     }
 }

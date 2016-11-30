@@ -11,7 +11,7 @@ public class c02SecondHand extends AppCompatActivity {
 
     //Set variable for time to spend on this page
     int pagetime = 5000; // in milliseconds
-
+    boolean toNextScreen = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,25 +28,34 @@ public class c02SecondHand extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(c02SecondHand.this, c03PressMotion.class);
-                startActivity(mainIntent);
-                finish();
+                if(!toNextScreen){
+                    final Intent mainIntent = new Intent(c02SecondHand.this, c03PressMotion.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
+
             }
         }, pagetime);
     }
 
     public void gotoc01(View view) {
         Intent intent = new Intent(this, c01FirstHand.class);
+        toNextScreen = true;
+
         startActivity(intent);
     }
 
     public void gotoc03(View view) {
         Intent intent = new Intent(this, c03PressMotion.class);
+        toNextScreen = true;
+
         startActivity(intent);
     }
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
+        toNextScreen = true;
+
         startActivity(intent);
     }
 }

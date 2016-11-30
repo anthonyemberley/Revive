@@ -11,7 +11,7 @@ public class e08_1AdultPads extends AppCompatActivity {
 
     //Set variable for time to spend on this page
     int pagetime = 8000; // in milliseconds
-
+    boolean toNextScreen = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,15 +28,20 @@ public class e08_1AdultPads extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(e08_1AdultPads.this, e09Analyzing.class);
-                startActivity(mainIntent);
-                finish();
+                if(!toNextScreen){
+                    final Intent mainIntent = new Intent(e08_1AdultPads.this, e09Analyzing.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
+
             }
         }, pagetime);
     }
 
     public void gotoe09(View view) {
         Intent intent = new Intent(this, e09Analyzing.class);
+        toNextScreen = true;
+
         startActivity(intent);
     }
 

@@ -10,7 +10,7 @@ import android.view.View;
 public class e07PrepPads extends AppCompatActivity {
 
     String kidOrAdult = "";
-
+    boolean toNextScreen = false;
     //Set variable for time to spend on this page
     int pagetime = 6000; // in milliseconds
 
@@ -30,25 +30,28 @@ public class e07PrepPads extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Bundle extras = getIntent().getExtras();
-                System.out.println("here");
+                if(!toNextScreen){
+                    Bundle extras = getIntent().getExtras();
+                    System.out.println("here");
 
-                if (extras != null) {
-                    String value = extras.getString("KidOrAdult");
-                    kidOrAdult = value;
-                    System.out.println(value);
+                    if (extras != null) {
+                        String value = extras.getString("KidOrAdult");
+                        kidOrAdult = value;
+                        System.out.println(value);
 
-                    //The key argument here must match that used in the other activity
+                        //The key argument here must match that used in the other activity
+                    }
+                    if (kidOrAdult.equals("kid")) {
+                        final Intent mainIntent = new Intent(e07PrepPads.this, e08_2KidPads.class);
+                        startActivity(mainIntent);
+                        finish();
+                    } else if (kidOrAdult.equals("adult")){
+                        final Intent mainIntent = new Intent(e07PrepPads.this, e08_1AdultPads.class);
+                        startActivity(mainIntent);
+                        finish();
+                    }
                 }
-                if (kidOrAdult.equals("kid")) {
-                    final Intent mainIntent = new Intent(e07PrepPads.this, e08_2KidPads.class);
-                    startActivity(mainIntent);
-                    finish();
-                } else if (kidOrAdult.equals("adult")){
-                    final Intent mainIntent = new Intent(e07PrepPads.this, e08_1AdultPads.class);
-                    startActivity(mainIntent);
-                    finish();
-                }
+
             }
         }, pagetime);
     }
@@ -57,27 +60,38 @@ public class e07PrepPads extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if(extras != null) {
             String value = extras.getString("KidOrAdult");
+            toNextScreen = true;
+
             kidOrAdult = value;
         //The key argument here must match that used in the other activity
         }
         if (kidOrAdult.equals("kid")) {
             final Intent mainIntent = new Intent(e07PrepPads.this, e08_2KidPads.class);
+            toNextScreen = true;
+
             startActivity(mainIntent);
             finish();
         } else if (kidOrAdult.equals("adult")){
             final Intent mainIntent = new Intent(e07PrepPads.this, e08_1AdultPads.class);
+            toNextScreen = true;
+
             startActivity(mainIntent);
             finish();
         }
+
     }
 
     public void gotoe06(View view) {
         Intent intent = new Intent(this, e06ExposeChest.class);
+        toNextScreen = true;
+
         startActivity(intent);
     }
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
+        toNextScreen = true;
+
         startActivity(intent);
     }
 }

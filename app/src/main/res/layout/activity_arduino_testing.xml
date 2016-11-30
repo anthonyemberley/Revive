@@ -52,13 +52,12 @@
         android:id="@+id/capacitorTextView" />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:id="@+id/deliveredShockTextView"
         android:layout_alignBaseline="@+id/deliverShockButton"
         android:layout_alignBottom="@+id/deliverShockButton"
-        android:layout_alignStart="@+id/capacitorTextView"
-        android:text="Need Longer Filler Text?" />
+        android:layout_alignStart="@+id/capacitorTextView" />
 
     <TextView
         android:text="Testing"

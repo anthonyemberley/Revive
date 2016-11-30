@@ -11,6 +11,7 @@ public class e02ConnectPhone extends AppCompatActivity {
 
     //Set variable for time to spend on this page
     int pagetime = 8000; // in milliseconds
+    boolean toNextScreen = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,20 +29,25 @@ public class e02ConnectPhone extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(e02ConnectPhone.this, e03RemovePads.class);
-                startActivity(mainIntent);
-                finish();
+                if(!toNextScreen){
+                    final Intent mainIntent = new Intent(e02ConnectPhone.this, e03RemovePads.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
+
             }
         }, pagetime);
     }
 
     public void gotoe01(View view) {
         Intent intent = new Intent(this, e01StayCalmCalling.class);
+        toNextScreen = true;
         startActivity(intent);
     }
 
     public void gotoe03(View view) {
         Intent intent = new Intent(this, e03RemovePads.class);
+        toNextScreen = true;
         startActivity(intent);
     }
 }
