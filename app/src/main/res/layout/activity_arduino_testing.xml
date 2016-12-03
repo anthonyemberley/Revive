@@ -85,4 +85,23 @@
         android:layout_alignBaseline="@+id/ecgButton"
         android:layout_alignBottom="@+id/ecgButton"
         android:layout_alignStart="@+id/deliveredShockTextView" />
+
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="300dp"
+        android:layout_marginBottom="23dp"
+        android:id="@+id/progress_bar_capacitor"
+        android:layout_height="25dp"
+        android:layout_above="@+id/ecgTextView"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/progress_bar_capacitor"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
+        tools:text="Capacitor Progress" />
+
 </RelativeLayout>

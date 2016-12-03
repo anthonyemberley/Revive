@@ -1,18 +1,22 @@
 package com.helge.arrhythmiapt;
 
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.felhr.usbserial.UsbSerialDevice;
@@ -43,11 +47,19 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     String CAPACITOR_ARDUINO_CODE = "2";
     String DELIVER_SHOCK_ARDUINO_CODE = "3";
     private ArduinoState currentAndroidState = ArduinoState.STATIC;
-
-
+    String bigString = "";
+    int progressThing = 0;
     int points = 1;
-    int numberOfPoints = 1000;
+    int numberOfPoints = 250;
     int[] ecgArray = new int[numberOfPoints];
+
+
+    //progress bar
+
+    private ProgressBar mProgress;
+    private int mProgressStatus = 0;
+
+    private Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,12 +80,39 @@ public class ArduinoTestingActivity extends AppCompatActivity {
         filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
         registerReceiver(broadcastReceiver, filter);
 
+
+
+        mProgress = (ProgressBar) findViewById(R.id.progress_bar_capacitor);
+
+        // Start lengthy operation in a background thread
+        new Thread(new Runnable() {
+            public void run() {
+                while (mProgressStatus < 100) {
+                    mProgressStatus = doWork();
+
+                    // Update the progress bar
+                    mHandler.post(new Runnable() {
+                        public void run() {
+                            mProgress.setProgress(mProgressStatus);
+                        }
+                    });
+                }
+            }
+        }).start();
+
         startSerialConnection();
+    }
+
+    public int doWork(){
+        //this is where we intermittantly ping the capacitor for its charge
+        progressThing +=1;
+        return progressThing;
     }
 
 
 
-    private void sendArduinoNextState(ArduinoState nextState){
+
+    private synchronized void sendArduinoNextState(ArduinoState nextState){
         String sendString = "";
         switch (nextState) {
             case ECG:
@@ -102,6 +141,15 @@ public class ArduinoTestingActivity extends AppCompatActivity {
 
     }
 
+    public synchronized void endOfString(String bigString){
+        sendArduinoNextState(ArduinoState.CAPACITOR);
+        String[] stringArray = bigString.split("/n");
+
+        ecgTextView.setText("");
+        //tvAppend(ecgTextView, "hello");
+
+
+    }
 
 
 
@@ -110,14 +158,28 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     UsbSerialInterface.UsbReadCallback mCallback = new UsbSerialInterface.UsbReadCallback() {
         //Defining a Callback which triggers whenever data is read.
         @Override
-        public void onReceivedData(byte[] arg0) {
+        public synchronized void onReceivedData(byte[] arg0) {
             String data = null;
             try {
                 data = new String(arg0, "UTF-8");
+
                 data = data.trim();
+
+
                 switch (currentAndroidState) {
                     case ECG:
-                        tvAppend(ecgTextView, data);
+                        if(points < numberOfPoints){
+                            bigString = bigString + data;
+                            points += 1;
+                            tvAppend(ecgTextView, data);
+
+                        }else if(points == numberOfPoints){
+                            endOfString(bigString);
+                            //points+=1;
+                        }
+
+
+
 //                        int dataInt = Integer.parseInt(data);
 //                        if(points < numberOfPoints){
 //                            ecgArray[points] = dataInt;

@@ -53,4 +53,32 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_height="400dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBarHeart"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="500"
+        android:progress="0"
+        android:progressDrawable="@drawable/circular"
+        android:layout_marginTop="63dp"
+        android:layout_width="200dp"
+        android:layout_alignTop="@+id/presstoshock"
+        android:layout_centerHorizontal="true"
+        android:layout_height="200dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBarHeart2"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:background="@drawable/circle_shape"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:max="100"
+        android:progress="0"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_alignTop="@+id/presstoshock"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="32dp" />
+
+
 </RelativeLayout>
