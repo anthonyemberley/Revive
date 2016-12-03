@@ -11,6 +11,7 @@ public class e09Analyzing extends AppCompatActivity {
 
     //Set variable for time to spend on this page
     int pagetime = 8000; // in milliseconds
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +19,7 @@ public class e09Analyzing extends AppCompatActivity {
         setContentView(R.layout.activity_e09_analyzing);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e09analyzing);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e09analyzing);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -37,6 +38,7 @@ public class e09Analyzing extends AppCompatActivity {
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
+        mediaPlayer.stop();
         startActivity(intent);
     }
 }

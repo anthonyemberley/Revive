@@ -12,13 +12,14 @@ public class c03PressMotion extends AppCompatActivity {
     //Set variable for time to spend on this page
     int pagetime = 5000; // in milliseconds
     boolean toNextScreen = false;
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c03_press_motion);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.c03pressmotion);
+        mediaPlayer = MediaPlayer.create(this, R.raw.c03pressmotion);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -40,21 +41,21 @@ public class c03PressMotion extends AppCompatActivity {
     public void gotoc02(View view) {
         Intent intent = new Intent(this, c02SecondHand.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
     public void gotoc04(View view) {
         Intent intent = new Intent(this, c04_1PerformingCPR.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 }

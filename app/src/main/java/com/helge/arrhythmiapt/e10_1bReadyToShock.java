@@ -28,6 +28,7 @@ public class e10_1bReadyToShock extends AppCompatActivity {
     CountDownTimer mCountDownTimer;
     int i=0;
     ObjectAnimator animation;
+    MediaPlayer mediaPlayer;
 
 
     @Override
@@ -119,7 +120,7 @@ public class e10_1bReadyToShock extends AppCompatActivity {
             }
         });
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e10_1breadytoshock);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e10_1breadytoshock);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -130,6 +131,7 @@ public class e10_1bReadyToShock extends AppCompatActivity {
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
+        mediaPlayer.stop();
         startActivity(intent);
     }
 

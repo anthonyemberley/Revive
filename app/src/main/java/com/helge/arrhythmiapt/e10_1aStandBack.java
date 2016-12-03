@@ -11,14 +11,14 @@ public class e10_1aStandBack extends AppCompatActivity {
 
     //Set variable for time to spend on this page
     int pagetime = 4000; // in milliseconds
-
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e10_1a_stand_back);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e10_1astandclear);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e10_1astandclear);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -37,6 +37,7 @@ public class e10_1aStandBack extends AppCompatActivity {
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
+        mediaPlayer.stop();
         startActivity(intent);
     }
 }

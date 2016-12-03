@@ -12,7 +12,7 @@ public class c01FirstHand extends AppCompatActivity {
     //Set variable for time to spend on this page
     int pagetime = 5000; // in milliseconds
     boolean toNextScreen = false;
-
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +20,7 @@ public class c01FirstHand extends AppCompatActivity {
         setContentView(R.layout.activity_c01_first_hand);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.c01firsthand);
+        mediaPlayer = MediaPlayer.create(this, R.raw.c01firsthand);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -43,14 +43,14 @@ public class c01FirstHand extends AppCompatActivity {
     public void gotoc02(View view) {
         Intent intent = new Intent(this, c02SecondHand.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 }

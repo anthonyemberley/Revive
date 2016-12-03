@@ -12,13 +12,14 @@ public class e12StartCPR extends AppCompatActivity {
     //Set variable for time to spend on this page
     int pagetime = 5000; // in milliseconds
     boolean toNextScreen = false;
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e12_start_cpr);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e12startcpr);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e12startcpr);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             //mediaPlayer.setLooping(true);
@@ -41,14 +42,14 @@ public class e12StartCPR extends AppCompatActivity {
     public void gotoc01(View view) {
         Intent intent = new Intent(this, c01FirstHand.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 }

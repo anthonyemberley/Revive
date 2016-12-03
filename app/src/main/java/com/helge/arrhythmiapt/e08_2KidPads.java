@@ -12,13 +12,14 @@ public class e08_2KidPads extends AppCompatActivity {
     //Set variable for time to spend on this page
     int pagetime = 8000; // in milliseconds
     boolean toNextScreen = false;
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e08_2_kid_pads);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e08placepads);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e08placepads);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -41,12 +42,14 @@ public class e08_2KidPads extends AppCompatActivity {
     public void gotoe09(View view) {
         Intent intent = new Intent(this, e09Analyzing.class);
         toNextScreen = true;
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
         toNextScreen = true;
+        mediaPlayer.stop();
         startActivity(intent);
     }
 }

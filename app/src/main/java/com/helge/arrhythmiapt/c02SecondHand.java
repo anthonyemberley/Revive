@@ -12,13 +12,14 @@ public class c02SecondHand extends AppCompatActivity {
     //Set variable for time to spend on this page
     int pagetime = 5000; // in milliseconds
     boolean toNextScreen = false;
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_c02_second_hand);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.c02secondhand);
+        mediaPlayer = MediaPlayer.create(this, R.raw.c02secondhand);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -48,14 +49,14 @@ public class c02SecondHand extends AppCompatActivity {
     public void gotoc03(View view) {
         Intent intent = new Intent(this, c03PressMotion.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 }

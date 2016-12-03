@@ -12,13 +12,14 @@ public class e03RemovePads extends AppCompatActivity {
     //Set variable for time to spend on this page
     int pagetime = 8000; // in milliseconds
     boolean toNextScreen = false;
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e03_remove_pads);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e03removepads);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e03removepads);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -40,12 +41,14 @@ public class e03RemovePads extends AppCompatActivity {
     public void gotoe02(View view) {
         Intent intent = new Intent(this, e02ConnectPhone.class);
         toNextScreen = true;
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
     public void gotoe05(View view) {
         Intent intent = new Intent(this, e05KidOrAdult.class);
         toNextScreen = true;
+        mediaPlayer.stop();
         startActivity(intent);
     }
 }

@@ -13,6 +13,7 @@ public class e07PrepPads extends AppCompatActivity {
     boolean toNextScreen = false;
     //Set variable for time to spend on this page
     int pagetime = 6000; // in milliseconds
+    MediaPlayer mediaPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +21,7 @@ public class e07PrepPads extends AppCompatActivity {
         setContentView(R.layout.activity_e07_prep_pads);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e07preppads);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e07preppads);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -58,6 +59,7 @@ public class e07PrepPads extends AppCompatActivity {
 
     public void gotoe08(View view) {
         Bundle extras = getIntent().getExtras();
+        mediaPlayer.stop();
         if(extras != null) {
             String value = extras.getString("KidOrAdult");
             toNextScreen = true;
@@ -84,14 +86,15 @@ public class e07PrepPads extends AppCompatActivity {
     public void gotoe06(View view) {
         Intent intent = new Intent(this, e06ExposeChest.class);
         toNextScreen = true;
-
+        intent.putExtra("KidOrAdult",kidOrAdult);
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 }

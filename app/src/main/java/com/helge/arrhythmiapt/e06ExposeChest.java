@@ -14,14 +14,14 @@ public class e06ExposeChest extends AppCompatActivity {
     //Set variable for time to spend on this page
     int pagetime = 8000; // in milliseconds
     boolean toNextScreen = false;
-
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e06_expose_chest);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e06exposechest);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e06exposechest);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -62,12 +62,14 @@ public class e06ExposeChest extends AppCompatActivity {
     public void gotoe05(View view) {
         Intent intent = new Intent(this, e05KidOrAdult.class);
         toNextScreen = true;
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
     public void gotoe07(View view) {
         Intent intent = new Intent(this, e07PrepPads.class);
         toNextScreen = true;
+        mediaPlayer.stop();
         Bundle extras = getIntent().getExtras();
 
         if (extras != null) {
@@ -84,6 +86,7 @@ public class e06ExposeChest extends AppCompatActivity {
 
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
+        mediaPlayer.stop();
         toNextScreen = true;
         startActivity(intent);
     }

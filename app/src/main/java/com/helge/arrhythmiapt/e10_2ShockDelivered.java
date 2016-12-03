@@ -12,14 +12,14 @@ public class e10_2ShockDelivered extends AppCompatActivity {
     //Set variable for time to spend on this page
     int pagetime = 5000; // in milliseconds
     // Handler myHandler = new Handler();
-
+    MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_e10_2_shock_delivered);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e10_2shockdelivered);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e10_2shockdelivered);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -39,6 +39,7 @@ public class e10_2ShockDelivered extends AppCompatActivity {
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
         //myHandler.removeCallb
+        mediaPlayer.stop();
         startActivity(intent);
     }
 }
