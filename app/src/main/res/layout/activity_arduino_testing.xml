@@ -96,12 +96,13 @@
         android:layout_centerHorizontal="true" />
 
     <TextView
-        android:text="TextView"
+        android:text="This Text View Displays the middle value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/progress_bar_capacitor"
-        android:layout_centerHorizontal="true"
+        android:id="@+id/ecgTestValueTextView"
         android:layout_marginBottom="25dp"
-        tools:text="Capacitor Progress" />
+        android:layout_above="@+id/progress_bar_capacitor"
+        android:layout_alignEnd="@+id/capacitorTextView"
+        android:layout_marginEnd="10dp" />
 
 </RelativeLayout>

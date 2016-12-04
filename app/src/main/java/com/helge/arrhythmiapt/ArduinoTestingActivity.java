@@ -11,6 +11,7 @@ import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
 
 
     Button capacitorButton, ecgButton, deliverShockButton, clearButton;
-    TextView ecgTextView, capacitorTextView, deliverShockTextView;
+    TextView ecgTextView, capacitorTextView, deliverShockTextView, ecgTestValueTextField;
 
     public boolean arduinoIsConnected = false;
     private enum ArduinoState {
@@ -50,7 +51,8 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     String bigString = "";
     int progressThing = 0;
     int points = 1;
-    int numberOfPoints = 250;
+    int numberOfPoints = 625;
+    
     int[] ecgArray = new int[numberOfPoints];
 
 
@@ -74,6 +76,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
         ecgTextView = (TextView) findViewById(R.id.ecgTextView);
         capacitorTextView = (TextView) findViewById(R.id.capacitorTextView);
         deliverShockTextView = (TextView) findViewById(R.id.deliveredShockTextView);
+        ecgTestValueTextField = (TextView) findViewById(R.id.ecgTestValueTextView);
         IntentFilter filter = new IntentFilter();
         filter.addAction(ACTION_USB_PERMISSION);
         filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
@@ -142,12 +145,15 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     }
 
     public synchronized void endOfString(String bigString){
-        sendArduinoNextState(ArduinoState.CAPACITOR);
-        String[] stringArray = bigString.split("/n");
-
-        ecgTextView.setText("");
-        //tvAppend(ecgTextView, "hello");
-
+        //sendArduinoNextState(ArduinoState.CAPACITOR);
+        String[] stringArray = bigString.split("a");
+//        ecgTestValueTextField.setText(Integer.toString(ecgArray[249]));
+        //SystemClock.sleep(3000);
+        int[] ecgIntArray = new int[stringArray.length];
+        for (int i = 0; i < ecgIntArray.length; i++){
+            ecgIntArray[i] = Integer.parseInt(stringArray[i]);
+        }
+        tvAppend(ecgTextView, "Length: " + Integer.toString(stringArray.length) + "val: " + Integer.toString(ecgIntArray[ecgIntArray.length-1]));
 
     }
 
@@ -162,20 +168,23 @@ public class ArduinoTestingActivity extends AppCompatActivity {
             String data = null;
             try {
                 data = new String(arg0, "UTF-8");
+                //data = data.replaceAll("\\r?\\n", "");
 
-                data = data.trim();
+                //data = data.trim();
 
 
                 switch (currentAndroidState) {
                     case ECG:
                         if(points < numberOfPoints){
+                            //int dataInt = Integer.parseInt(data);
+                            //ecgArray[points] = dataInt;
                             bigString = bigString + data;
                             points += 1;
-                            tvAppend(ecgTextView, data);
+                            //tvAppend(ecgTextView, data);
 
                         }else if(points == numberOfPoints){
                             endOfString(bigString);
-                            //points+=1;
+                            points+=1;
                         }
 
 
@@ -307,6 +316,8 @@ public class ArduinoTestingActivity extends AppCompatActivity {
 
     public void clearDataPressed(View view) {
         ecgTextView.setText("");
+        bigString = "";
+        points = 1;
     }
 
 
