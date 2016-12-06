@@ -22,6 +22,9 @@ import android.widget.TextView;
 
 import com.felhr.usbserial.UsbSerialDevice;
 import com.felhr.usbserial.UsbSerialInterface;
+import com.helge.arrhythmiapt.osea.OSEAFactory;
+import com.helge.arrhythmiapt.osea.classification.BeatDetectionAndClassification;
+import com.helge.arrhythmiapt.osea.classification.ECGCODES;
 
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
@@ -34,6 +37,11 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     UsbSerialDevice serialPort;
     UsbDeviceConnection connection;
     public final String ACTION_USB_PERMISSION = "com.a2009pink.revive.USB_PERMISSION";
+
+    public long ecgStartTime;
+    public boolean hasSentECG = false;
+    public int beatsDetected = 0;
+    public int ecgFirstBeatTime;
 
 
     Button capacitorButton, ecgButton, deliverShockButton, clearButton;
@@ -51,7 +59,9 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     String bigString = "";
     int progressThing = 0;
     int points = 1;
-    int numberOfPoints = 625;
+    int readingsPerSecond = 60;
+    int numberOfSeconds = 15;
+    int numberOfPoints = readingsPerSecond * numberOfSeconds;
     
     int[] ecgArray = new int[numberOfPoints];
 
@@ -106,6 +116,67 @@ public class ArduinoTestingActivity extends AppCompatActivity {
         startSerialConnection();
     }
 
+
+    // process the ecg stuff
+    private void QRSClassification(int[] ecgSamples) {
+        int sampleRate = ecgSamples.length/numberOfSeconds;
+        tvAppend(ecgTextView, "successfully got to QRSclass method");
+        BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);
+        for (int i = 0; i < ecgSamples.length; i++) {
+            BeatDetectionAndClassification.BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(ecgSamples[i]);
+            if (result.samplesSinceRWaveIfSuccess != 0) {
+                int qrsPosition =  i - result.samplesSinceRWaveIfSuccess;
+                if (result.beatType == ECGCODES.UNKNOWN) {
+                    //tvAppend(ecgTextView, "A unknown beat type was detected at sample: " + qrsPosition);
+                    System.out.println("A unknown beat type was detected at sample: " + qrsPosition);
+                } else if (result.beatType == ECGCODES.NORMAL) {
+                    if(beatsDetected == 0){
+                        ecgFirstBeatTime = i;
+                    }
+                   // tvAppend(ecgTextView, "A normal beat type was detected at sample: " + qrsPosition);
+                    System.out.println("A normal beat type was detected at sample: " + qrsPosition);
+                    beatsDetected +=1;
+
+                } else if (result.beatType == ECGCODES.PVC) {
+                   // tvAppend(ecgTextView, "A premature ventricular contraction was detected at sample: " + qrsPosition);
+                    System.out.println("A premature ventricular contraction was detected at sample: " + qrsPosition);
+                }
+            }
+        }
+
+//
+        long numberOfSecondsSinceDetecting = (ecgSamples.length - ecgFirstBeatTime)/ sampleRate;
+        long beatsLong = new Long(beatsDetected);
+        double heartRate = ((double) beatsLong/ (double) numberOfSecondsSinceDetecting)*60;
+        tvAppend(ecgTextView, "Number of beats detected: " + beatsDetected);
+        tvAppend(ecgTextView, "Heart rate: " + heartRate);
+
+    }
+
+//    private void QRSClassificationOneAtATime(int ecgSample, int position) {
+//        int sampleRate = 480;
+//        tvAppend(ecgTextView, "successfully got to QRSclass method");
+//        BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);
+//            BeatDetectionAndClassification.BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(ecgSample);
+//            if (result.samplesSinceRWaveIfSuccess != 0) {
+//                int qrsPosition =  position - result.samplesSinceRWaveIfSuccess;
+//                if (result.beatType == ECGCODES.UNKNOWN) {
+//                    tvAppend(ecgTextView, "A unknown beat type was detected at sample: " + qrsPosition);
+//                    System.out.println("A unknown beat type was detected at sample: " + qrsPosition);
+//                } else if (result.beatType == ECGCODES.NORMAL) {
+//                    tvAppend(ecgTextView, "A normal beat type was detected at sample: " + qrsPosition);
+//                    System.out.println("A normal beat type was detected at sample: " + qrsPosition);
+//                } else if (result.beatType == ECGCODES.PVC) {
+//                    tvAppend(ecgTextView, "A premature ventricular contraction was detected at sample: " + qrsPosition);
+//                    System.out.println("A premature ventricular contraction was detected at sample: " + qrsPosition);
+//                }
+//            }
+//
+//
+//
+//
+//    }
+
     public int doWork(){
         //this is where we intermittantly ping the capacitor for its charge
         progressThing +=1;
@@ -145,7 +216,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     }
 
     public synchronized void endOfString(String bigString){
-        //sendArduinoNextState(ArduinoState.CAPACITOR);
+        sendArduinoNextState(ArduinoState.CAPACITOR);
         String[] stringArray = bigString.split("a");
 //        ecgTestValueTextField.setText(Integer.toString(ecgArray[249]));
         //SystemClock.sleep(3000);
@@ -154,7 +225,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
             ecgIntArray[i] = Integer.parseInt(stringArray[i]);
         }
         tvAppend(ecgTextView, "Length: " + Integer.toString(stringArray.length) + "val: " + Integer.toString(ecgIntArray[ecgIntArray.length-1]));
-
+        QRSClassification(ecgIntArray);
     }
 
 
@@ -175,17 +246,19 @@ public class ArduinoTestingActivity extends AppCompatActivity {
 
                 switch (currentAndroidState) {
                     case ECG:
-                        if(points < numberOfPoints){
+                        long now = System.currentTimeMillis();
+                        if(now <= (ecgStartTime + numberOfSeconds*1000)) { //multiply by 1000 to get milliseconds
                             //int dataInt = Integer.parseInt(data);
                             //ecgArray[points] = dataInt;
                             bigString = bigString + data;
-                            points += 1;
                             //tvAppend(ecgTextView, data);
 
-                        }else if(points == numberOfPoints){
+                        }else if (!hasSentECG)
+                        {
                             endOfString(bigString);
-                            points+=1;
+                            hasSentECG = true;
                         }
+
 
 
 
@@ -301,8 +374,8 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     //BUTTON CODE
 
     public void ecgButtonPressed(View view) {
-        System.out.println("here");
         sendArduinoNextState(ArduinoState.ECG);
+        ecgStartTime = System.currentTimeMillis();
     }
     public void capacitorButtonPressed(View view) {
 
