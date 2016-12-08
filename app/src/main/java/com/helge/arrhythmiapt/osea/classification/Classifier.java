@@ -49,7 +49,7 @@ public class Classifier
 	private double MATCH_NOISE_THRESHOLD    = 0.7 ; // Match threshold below which noise indications are ignored.
 
 	// TempClass classification rule parameters.
-	private double R2_DI_THRESHOLD     = 1.0 ; // Rule 2 dominant similarity index threshold
+	private double R2_DI_THRESHOLD     = 1.0 ; // Rule b02usecase dominant similarity index threshold
 	private int    R3_WIDTH_THRESHOLD  ;       // Rule 3 width threshold.
 	private double R7_DI_THRESHOLD     = 1.2 ; // Rule 7 dominant similarity index threshold
 	private double R8_DI_THRESHOLD     = 1.5 ; // Rule 8 dominant similarity index threshold
@@ -59,7 +59,7 @@ public class Classifier
 	private int    R11_MIN_WIDTH       ;       // Rule 11 minimum width threshold.
 	private int    R11_WIDTH_BREAK     ;       // Rule 11 width break.
 	private int    R11_WIDTH_DIFF1     ;       // Rule 11 width difference threshold 1
-	private int    R11_WIDTH_DIFF2     ;       // Rule 11 width difference threshold 2
+	private int    R11_WIDTH_DIFF2     ;       // Rule 11 width difference threshold b02usecase
 	private int    R11_HF_THRESHOLD    = 45 ;  // Rule 11 high frequency noise threshold.
 	private int    R11_MA_THRESHOLD    = 14 ;  // Rule 11 motion artifact threshold.
 	private int    R11_BC_LIM          = 1 ;   // Rule 11 beat count limit.
@@ -368,7 +368,7 @@ public class Classifier
 	/**
 	 * HFNoiseCheck() gauges the high frequency (muscle noise) present in the
 	 * beat template.  The high frequency noise level is estimated by highpass
-	 * filtering the beat (y[n] = x[n] - 2*x[n-1] + x[n-2]), averaging the
+	 * filtering the beat (y[n] = x[n] - b02usecase*x[n-1] + x[n-b02usecase]), averaging the
 	 * highpass filtered signal over five samples, and finding the maximum of
 	 * this averaged highpass filtered signal.  The high frequency noise metric
 	 * is then taken to be the ratio of the maximum averaged highpassed signal
@@ -438,7 +438,7 @@ public class Classifier
 		if(domType < 0)
 			return(UNKNOWN) ;
 
-		// Rule 2:  If the dominant rhythm is normal, the dominant
+		// Rule b02usecase:  If the dominant rhythm is normal, the dominant
 		// beat type doesn't vary much, this beat is premature
 		// and looks sufficiently different than the dominant beat
 		// classify as PVC.

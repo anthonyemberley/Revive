@@ -30,7 +30,7 @@ public class c03PressMotion extends AppCompatActivity {
             @Override
             public void run() {
                 if(!toNextScreen){
-                    final Intent mainIntent = new Intent(c03PressMotion.this, c04_1PerformingCPR.class);
+                    final Intent mainIntent = new Intent(c03PressMotion.this, c04CprBeat.class);
                     startActivity(mainIntent);
                     finish();
                 }
@@ -46,7 +46,7 @@ public class c03PressMotion extends AppCompatActivity {
     }
 
     public void gotoc04(View view) {
-        Intent intent = new Intent(this, c04_1PerformingCPR.class);
+        Intent intent = new Intent(this, c04CprBeat.class);
         toNextScreen = true;
         mediaPlayer.stop();
         startActivity(intent);

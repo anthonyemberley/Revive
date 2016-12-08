@@ -1,19 +1,16 @@
 package com.helge.arrhythmiapt;
 
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
-import android.os.Handler;
-import android.os.SystemClock;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -53,7 +50,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     }
     String STATIC_ARDUINO_CODE = "0";
     String ECG_ARDUINO_CODE = "1";
-    String CAPACITOR_ARDUINO_CODE = "2";
+    String CAPACITOR_ARDUINO_CODE = "b02usecase";
     String DELIVER_SHOCK_ARDUINO_CODE = "3";
     private ArduinoState currentAndroidState = ArduinoState.STATIC;
     String bigString = "";
@@ -156,7 +153,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
 //    private void QRSClassificationOneAtATime(int ecgSample, int position) {
 //        int sampleRate = 480;
 //        tvAppend(ecgTextView, "successfully got to QRSclass method");
-//        BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);
+//        BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/b02usecase);
 //            BeatDetectionAndClassification.BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(ecgSample);
 //            if (result.samplesSinceRWaveIfSuccess != 0) {
 //                int qrsPosition =  position - result.samplesSinceRWaveIfSuccess;
@@ -282,7 +279,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
                             tvSet(capacitorTextView, "Capacitor Not Charged");
                         }else if(data.equals("1")){
                             tvSet(capacitorTextView, "Capacitor Almost Charged");
-                        }else if(data.equals("2")){
+                        }else if(data.equals("b02usecase")){
                             tvSet(capacitorTextView, "Capacitor Charged!");
                         }
                         break;

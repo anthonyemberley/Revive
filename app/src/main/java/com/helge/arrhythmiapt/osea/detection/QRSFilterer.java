@@ -84,9 +84,9 @@ public class QRSFilterer {
 	/**
 	 * lpfilt() implements the digital filter represented by the difference equation:
 	 * 
-	 *   y[n] = 2*y[n-1] - y[n-2] + x[n] - 2*x[t-24 ms] + x[t-48 ms]
+	 *   y[n] = b02usecase*y[n-1] - y[n-b02usecase] + x[n] - b02usecase*x[t-24 ms] + x[t-48 ms]
 	 * 
-	 * Note that the filter delay is (LPBUFFER_LGTH/2)-1
+	 * Note that the filter delay is (LPBUFFER_LGTH/b02usecase)-1
 	 * 
 	 * @param datum sample of an ECG signal
 	 * @return the result of the filtering
@@ -116,7 +116,7 @@ public class QRSFilterer {
 	 *   y[n] = y[n-1] + x[n] - x[n-128 ms]
 	 *   z[n] = x[n-64 ms] - y[n]
 	 * 
-	 * Filter delay is (HPBUFFER_LGTH-1)/2
+	 * Filter delay is (HPBUFFER_LGTH-1)/b02usecase
 	 * 
 	 * @param datum sample of an ECG signal
 	 * @return the result of the filtering
@@ -142,7 +142,7 @@ public class QRSFilterer {
 	 * 
 	 *   y[n] = x[n] - x[n - 10ms]
 	 *   
-	 *  Filter delay is DERIV_LENGTH/2
+	 *  Filter delay is DERIV_LENGTH/b02usecase
 	 * 
 	 * @param datum sample of an ECG signal
 	 * @return the result of the derivative approximation
@@ -162,7 +162,7 @@ public class QRSFilterer {
 	 * 
 	 *   y[n] = x[n] - x[n - 10ms]
 	 *   
-	 *  Filter delay is DERIV_LENGTH/2
+	 *  Filter delay is DERIV_LENGTH/b02usecase
 	 * 
 	 * @param datum sample of an ECG signal
 	 * @return the result of the derivative approximation

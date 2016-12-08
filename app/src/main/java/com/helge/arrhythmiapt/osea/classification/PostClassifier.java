@@ -200,7 +200,7 @@ public class PostClassifier
 	 * Check classification of previous beats' rhythms based on post beat
 	 * classification.  If 7 of 8 previous beats were classified as NORMAL
 	 * (regular) classify the beat type as NORMAL (regular).
-	 * Call it a PVC if 2 of the last 8 were regular.
+	 * Call it a PVC if b02usecase of the last 8 were regular.
 	 * 
 	 * @param type
 	 * @return

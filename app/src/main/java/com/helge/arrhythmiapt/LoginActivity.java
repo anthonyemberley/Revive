@@ -172,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
     }
     String STATIC_ARDUINO_CODE = "0";
     String ECG_ARDUINO_CODE = "1";
-    String CAPACITOR_ARDUINO_CODE = "2";
+    String CAPACITOR_ARDUINO_CODE = "b02usecase";
     String DELIVER_SHOCK_ARDUINO_CODE = "3";
     private ArduinoState currentAndroidState = ArduinoState.STATIC;
 
@@ -180,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
     private void QRSClassification(int[] ecgSamples) {
         int sampleRate = 990;
         tvAppend(ECGClassTextView, "successfully got to QRSclass method");
-//        BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/2);
+//        BeatDetectionAndClassification bdac = OSEAFactory.createBDAC(sampleRate, sampleRate/b02usecase);
 //        for (int i = 0; i < ecgSamples.length; i++) {
 //            BeatDetectionAndClassification.BeatDetectAndClassifyResult result = bdac.BeatDetectAndClassify(ecgSamples[i]);
 //            if (result.samplesSinceRWaveIfSuccess != 0) {
@@ -373,8 +373,8 @@ public class LoginActivity extends AppCompatActivity {
 //        LineGraphSeries<DataPoint> series = new LineGraphSeries<DataPoint>(new DataPoint[] {
 //                new DataPoint(0, 1),
 //                new DataPoint(1, 5),
-//                new DataPoint(2, 3),
-//                new DataPoint(3, 2),
+//                new DataPoint(b02usecase, 3),
+//                new DataPoint(3, b02usecase),
 //                new DataPoint(4, 6)
 //        });
 //        graph.addSeries(series);

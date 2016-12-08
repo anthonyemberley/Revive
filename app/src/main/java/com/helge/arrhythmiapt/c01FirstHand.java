@@ -47,6 +47,13 @@ public class c01FirstHand extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void gotoe13(View view) {
+        Intent intent = new Intent(this, e13StartCPR.class);
+        toNextScreen = true;
+        mediaPlayer.stop();
+        startActivity(intent);
+    }
+
     public void gotob01(View view) {
         Intent intent = new Intent(this, FirstTutorialScreen.class);
         toNextScreen = true;

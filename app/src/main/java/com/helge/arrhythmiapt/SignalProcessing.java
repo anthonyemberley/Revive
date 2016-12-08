@@ -95,7 +95,7 @@ public class SignalProcessing {
         int org_length = _signal.size();
 
         // Important Values
-        int window                  = 2 * FS;   // 2 second window
+        int window                  = 2 * FS;   // b02usecase second window
         double h_thresh             = 0;        // initial value of h_thresh
         double h_thresh_correct     = 0.7;      // correction value for h_thresh
 
@@ -338,7 +338,7 @@ public class SignalProcessing {
 
             // Feature 1: RR feature
             features.add((double) rr_intervals.get(iSegment + 1));
-            // Feature 2: RR feature
+            // Feature b02usecase: RR feature
             features.add((double) rr_intervals.get(iSegment));
 
             // Feature 3-17: JWave feature

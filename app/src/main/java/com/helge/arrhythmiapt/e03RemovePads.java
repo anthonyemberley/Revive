@@ -30,7 +30,7 @@ public class e03RemovePads extends AppCompatActivity {
             @Override
             public void run() {
                 if(!toNextScreen) {
-                    final Intent mainIntent = new Intent(e03RemovePads.this, e05KidOrAdult.class);
+                    final Intent mainIntent = new Intent(e03RemovePads.this, e04ExposeChest.class);
                     startActivity(mainIntent);
                     finish();
                 }
@@ -45,8 +45,8 @@ public class e03RemovePads extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void gotoe05(View view) {
-        Intent intent = new Intent(this, e05KidOrAdult.class);
+    public void gotoe04(View view) {
+        Intent intent = new Intent(this, e04ExposeChest.class);
         toNextScreen = true;
         mediaPlayer.stop();
         startActivity(intent);
