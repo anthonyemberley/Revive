@@ -2,6 +2,7 @@ package com.helge.arrhythmiapt;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,7 @@ public class e04ExposeChest extends AppCompatActivity {
 
     boolean toNextScreen = false;
     MediaPlayer mediaPlayer;
+    int pagetime = 7000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +23,17 @@ public class e04ExposeChest extends AppCompatActivity {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
         }
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(!toNextScreen) {
+                    final Intent mainIntent = new Intent(e04ExposeChest.this, e05PrepPads.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
+            }
+        }, pagetime);
+
     }
 
     public void gotoe03(View view) {

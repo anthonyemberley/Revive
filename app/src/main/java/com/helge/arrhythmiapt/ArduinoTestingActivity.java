@@ -221,15 +221,18 @@ public class ArduinoTestingActivity extends AppCompatActivity {
 
     public synchronized void endOfString(String bigString){
         sendArduinoNextState(ArduinoState.CAPACITOR);
-        String[] stringArray = bigString.split("a");
+        String[] stringArray = bigString.split("a|b");
 //        ecgTestValueTextField.setText(Integer.toString(ecgArray[249]));
         //SystemClock.sleep(3000);
         int[] ecgIntArray = new int[stringArray.length];
         for (int i = 0; i < ecgIntArray.length; i++){
             ecgIntArray[i] = Integer.parseInt(stringArray[i]);
         }
-        tvAppend(ecgTextView, "Length: " + Integer.toString(stringArray.length) + "val: " + Integer.toString(ecgIntArray[ecgIntArray.length-1]));
-        QRSClassification(ecgIntArray);
+        if(ecgIntArray.length >  0){
+            tvAppend(ecgTextView, "Length: " + Integer.toString(stringArray.length) + "val: " + Integer.toString(ecgIntArray[ecgIntArray.length-1]));
+            QRSClassification(ecgIntArray);
+        }
+
     }
 
 
@@ -253,10 +256,10 @@ public class ArduinoTestingActivity extends AppCompatActivity {
                         long now = System.currentTimeMillis();
                         String[] testSplit = data.split("a");
                         String testText = (String) ecgTestValueTextField.getText();
-                        if (Arrays.asList(testSplit).contains("0")
+                        if (testSplit.length == 0
                                 && !testText.equals("Pads Not Placed")){
                             tvSet(ecgTestValueTextField, "Pads Not Placed");
-                        } else if(!Arrays.asList(testSplit).contains("0") && !testText.equals("Pads Placed")){
+                        } else if(testSplit.length != 0 && !testText.equals("Pads Placed")){
                             tvSet(ecgTestValueTextField, "Pads Placed");
                         }
                         if(now <= (ecgStartTime + numberOfSeconds*1000)) { //multiply by 1000 to get milliseconds

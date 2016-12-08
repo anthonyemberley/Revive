@@ -32,9 +32,11 @@ public class e06PlacePads extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(e06PlacePads.this, e08Analyzing.class);
-                startActivity(mainIntent);
-                finish();
+                if(!toNextScreen) {
+                    final Intent mainIntent = new Intent(e06PlacePads.this, e08Analyzing.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
             }
         }, pagetime);
 

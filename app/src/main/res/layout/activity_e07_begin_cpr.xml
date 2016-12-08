@@ -17,7 +17,7 @@
         android:layout_alignParentEnd="true"
         android:id="@+id/gotoe08"
         android:background="@null"
-        android:onClick="gotoe08 (e07BeginCPR)"
+        android:onClick="gotoe08"
         android:layout_width="130dp" />
 
     <Button

@@ -31,9 +31,11 @@ public class e05PrepPads extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(e05PrepPads.this, e06PlacePads.class);
-                startActivity(mainIntent);
-                finish();
+                if(!toNextScreen) {
+                    final Intent mainIntent = new Intent(e05PrepPads.this, e06PlacePads.class);
+                    startActivity(mainIntent);
+                    finish();
+                }
             }
         }, pagetime);
 

@@ -137,9 +137,6 @@ import com.felhr.usbserial.UsbSerialInterface;
 import com.helge.arrhythmiapt.osea.OSEAFactory;
 import com.helge.arrhythmiapt.osea.classification.BeatDetectionAndClassification;
 import com.helge.arrhythmiapt.osea.classification.ECGCODES;
-import com.jjoe64.graphview.GraphView;
-import com.jjoe64.graphview.series.DataPoint;
-import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.ByteBuffer;
@@ -150,7 +147,6 @@ import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private LineGraphSeries<DataPoint> mSeries;
     private double graphLastXValue = 0d;
     private double graphLastYValue = 0d;
     public final String ACTION_USB_PERMISSION = "com.a2009pink.revive.USB_PERMISSION";
@@ -164,7 +160,6 @@ public class LoginActivity extends AppCompatActivity {
     int points = 1;
     List<Integer> pointList;
     int numberOfPoints = 1000;
-    DataPoint[] dataPoints = new DataPoint[numberOfPoints];
     byte[] byteArray = new byte[numberOfPoints];
     int[] intECGArray = new int[numberOfPoints];
     private enum ArduinoState {
@@ -300,37 +295,37 @@ public class LoginActivity extends AppCompatActivity {
     private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() { //Broadcast Receiver to automatically start and stop the Serial connection.
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
-                boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
-                if (granted) {
-                    connection = usbManager.openDevice(device);
-                    serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
-                    if (serialPort != null) {
-                        if (serialPort.open()) { //Set Serial Connection Parameters.
-                            setUiEnabled(true);
-                            serialPort.setBaudRate(9600);
-                            serialPort.setDataBits(UsbSerialInterface.DATA_BITS_8);
-                            serialPort.setStopBits(UsbSerialInterface.STOP_BITS_1);
-                            serialPort.setParity(UsbSerialInterface.PARITY_NONE);
-                            serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
-                            serialPort.read(mCallback);
-                            tvAppend(textView,"Serial Connection Opened!\n");
-
-                        } else {
-                            Log.d("SERIAL", "PORT NOT OPEN");
-                        }
-                    } else {
-                        Log.d("SERIAL", "PORT IS NULL");
-                    }
-                } else {
-                    Log.d("SERIAL", "PERM NOT GRANTED");
-                }
-            } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
-                onClickStart(startButton);
-            } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
-                onClickStop(stopButton);
-
-            }
+//            if (intent.getAction().equals(ACTION_USB_PERMISSION)) {
+//                boolean granted = intent.getExtras().getBoolean(UsbManager.EXTRA_PERMISSION_GRANTED);
+//                if (granted && usbManager!=null) {
+//                    connection = usbManager.openDevice(device);
+//                    serialPort = UsbSerialDevice.createUsbSerialDevice(device, connection);
+//                    if (serialPort != null) {
+//                        if (serialPort.open()) { //Set Serial Connection Parameters.
+//                            setUiEnabled(true);
+//                            serialPort.setBaudRate(9600);
+//                            serialPort.setDataBits(UsbSerialInterface.DATA_BITS_8);
+//                            serialPort.setStopBits(UsbSerialInterface.STOP_BITS_1);
+//                            serialPort.setParity(UsbSerialInterface.PARITY_NONE);
+//                            serialPort.setFlowControl(UsbSerialInterface.FLOW_CONTROL_OFF);
+//                            serialPort.read(mCallback);
+//                            tvAppend(textView,"Serial Connection Opened!\n");
+//
+//                        } else {
+//                            Log.d("SERIAL", "PORT NOT OPEN");
+//                        }
+//                    } else {
+//                        Log.d("SERIAL", "PORT IS NULL");
+//                    }
+//                } else {
+//                    Log.d("SERIAL", "PERM NOT GRANTED");
+//                }
+//            } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
+//                onClickStart(startButton);
+//            } else if (intent.getAction().equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {
+//                onClickStop(stopButton);
+//
+//            }
         }
 
         ;
