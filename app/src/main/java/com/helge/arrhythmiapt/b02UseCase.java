@@ -14,7 +14,12 @@ public class b02UseCase extends AppCompatActivity {
     }
 
     public void b02toe01(View view) {
-        Intent intent = new Intent(this, e01StayCalmCalling.class);
+        Intent intent = new Intent(this, e01StayCalmCall.class);
+        startActivity(intent);
+    }
+
+    public void gotof00(View view) {
+        Intent intent = new Intent(this, f00Questions.class);
         startActivity(intent);
     }
 }

@@ -40,7 +40,7 @@ public class e02ConnectPhone extends AppCompatActivity {
     }
 
     public void gotoe01(View view) {
-        Intent intent = new Intent(this, e01StayCalmCalling.class);
+        Intent intent = new Intent(this, e01StayCalmCall.class);
         toNextScreen = true;
         mediaPlayer.stop();
         startActivity(intent);

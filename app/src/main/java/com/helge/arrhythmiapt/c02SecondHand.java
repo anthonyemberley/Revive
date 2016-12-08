@@ -42,7 +42,7 @@ public class c02SecondHand extends AppCompatActivity {
     public void gotoc01(View view) {
         Intent intent = new Intent(this, c01FirstHand.class);
         toNextScreen = true;
-
+        mediaPlayer.stop();
         startActivity(intent);
     }
 
