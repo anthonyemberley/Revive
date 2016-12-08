@@ -257,9 +257,9 @@ public class Classifier
 
 			if((beatWidth > ar.offset-ar.onset) && (matcher.GetBeatTypeCount(morphType) <= 4))
 				{
-				beatWidth = ar.offset-ar.onset ;
 				result.fidAdj = ((ar.offset+ar.onset)/2)-bdacParas.FIDMARK ;
 				}
+
 			}
 
 		// If this beat didn't match get beat features directly
@@ -267,11 +267,12 @@ public class Classifier
 
 		else
 			{
-			beatWidth = ar.offset-ar.onset ;
 			beatClass = UNKNOWN ;
+			beatWidth = ar.offset - ar.onset ;
 			result.fidAdj = ((ar.offset+ar.onset)/2)-bdacParas.FIDMARK ;
 			}
-
+		result.beatWidth = ar.offset - ar.onset ;
+		result.beatAmp = ar.amp ;
 		// Fetch dominant type beat features.
 
 		domType = DomMonitor(morphType, rhythmClass, beatWidth, rr) ;
@@ -356,6 +357,7 @@ public class Classifier
 
 		// Otherwise use the temporary classification.
 		result.tempClass = tempClass;
+
 		return(result) ;
 		}
 	
@@ -363,6 +365,8 @@ public class Classifier
 		public int tempClass ;
 		public int beatMatch ;
 		public int fidAdj ;
+		public int beatWidth ;
+		public int beatAmp ;
 	}
 
 	/**

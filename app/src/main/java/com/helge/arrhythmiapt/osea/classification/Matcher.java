@@ -54,7 +54,7 @@ public class Matcher
 	
 	private int[][]    BeatTemplates ;
 	private int[]      BeatCounts ;
-	private int[]      BeatWidths ;
+	public int[]      BeatWidths ;
 	private int[]      BeatClassifications ;
 	private int[]      BeatBegins ;
 	private int[]      BeatEnds ;

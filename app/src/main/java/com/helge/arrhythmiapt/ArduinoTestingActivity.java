@@ -27,6 +27,7 @@ import com.helge.arrhythmiapt.osea.classification.BeatDetectionAndClassification
 import com.helge.arrhythmiapt.osea.classification.ECGCODES;
 
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +42,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     public long ecgStartTime;
     public boolean hasSentECG = false;
     public int beatsDetected = 0;
-    public int ecgFirstBeatTime;
+    public int ecgFirstBeatTime = 0;
 
 
     Button capacitorButton, ecgButton, deliverShockButton, clearButton;
@@ -49,12 +50,13 @@ public class ArduinoTestingActivity extends AppCompatActivity {
 
     public boolean arduinoIsConnected = false;
     private enum ArduinoState {
-        STATIC, ECG, CAPACITOR, DELIVER_SHOCK
+        STATIC, ECG, CAPACITOR, DELIVER_SHOCK, CHECK_PADS
     }
     String STATIC_ARDUINO_CODE = "0";
     String ECG_ARDUINO_CODE = "1";
     String CAPACITOR_ARDUINO_CODE = "2";
     String DELIVER_SHOCK_ARDUINO_CODE = "3";
+    String CHECK_PADS_ARDUINO_CODE = "4";
     private ArduinoState currentAndroidState = ArduinoState.STATIC;
     String bigString = "";
     int progressThing = 0;
@@ -130,24 +132,27 @@ public class ArduinoTestingActivity extends AppCompatActivity {
                     //tvAppend(ecgTextView, "A unknown beat type was detected at sample: " + qrsPosition);
                     System.out.println("A unknown beat type was detected at sample: " + qrsPosition);
                 } else if (result.beatType == ECGCODES.NORMAL) {
-                    if(beatsDetected == 0){
-                        ecgFirstBeatTime = i;
-                    }
+
                    // tvAppend(ecgTextView, "A normal beat type was detected at sample: " + qrsPosition);
                     System.out.println("A normal beat type was detected at sample: " + qrsPosition);
-                    beatsDetected +=1;
 
                 } else if (result.beatType == ECGCODES.PVC) {
                    // tvAppend(ecgTextView, "A premature ventricular contraction was detected at sample: " + qrsPosition);
                     System.out.println("A premature ventricular contraction was detected at sample: " + qrsPosition);
                 }
+                if(beatsDetected == 0){
+                    ecgFirstBeatTime = i;
+                }
+                beatsDetected +=1;
+                tvAppend(ecgTextView, "Beat Width: " + result.beatWidth );
+                tvAppend(ecgTextView, "Beat Amp: " + result.beatAmp);
             }
         }
 
 //
-        long numberOfSecondsSinceDetecting = (ecgSamples.length - ecgFirstBeatTime)/ sampleRate;
-        long beatsLong = new Long(beatsDetected);
-        double heartRate = ((double) beatsLong/ (double) numberOfSecondsSinceDetecting)*60;
+        double numberOfSecondsSinceDetecting = (ecgSamples.length - ecgFirstBeatTime)/ sampleRate;
+        double beatsLong = (double)beatsDetected;
+        double heartRate = (beatsLong/ numberOfSecondsSinceDetecting)*60;
         tvAppend(ecgTextView, "Number of beats detected: " + beatsDetected);
         tvAppend(ecgTextView, "Heart rate: " + heartRate);
 
@@ -201,6 +206,8 @@ public class ArduinoTestingActivity extends AppCompatActivity {
             case CAPACITOR:
                 sendString = CAPACITOR_ARDUINO_CODE;
                 break;
+            case CHECK_PADS:
+                sendString = CHECK_PADS_ARDUINO_CODE;
             default:
                 break;
         }
@@ -247,6 +254,14 @@ public class ArduinoTestingActivity extends AppCompatActivity {
                 switch (currentAndroidState) {
                     case ECG:
                         long now = System.currentTimeMillis();
+                        String[] testSplit = data.split("a");
+                        String testText = (String) ecgTestValueTextField.getText();
+                        if (Arrays.asList(testSplit).contains("0")
+                                && !testText.equals("Pads Not Placed")){
+                            tvSet(ecgTestValueTextField, "Pads Not Placed");
+                        } else if(!Arrays.asList(testSplit).contains("0") && !testText.equals("Pads Placed")){
+                            tvSet(ecgTestValueTextField, "Pads Placed");
+                        }
                         if(now <= (ecgStartTime + numberOfSeconds*1000)) { //multiply by 1000 to get milliseconds
                             //int dataInt = Integer.parseInt(data);
                             //ecgArray[points] = dataInt;
@@ -260,32 +275,29 @@ public class ArduinoTestingActivity extends AppCompatActivity {
                         }
 
 
-
-
-//                        int dataInt = Integer.parseInt(data);
-//                        if(points < numberOfPoints){
-//                            ecgArray[points] = dataInt;
-//                        } else if(points == numberOfPoints){
-//                            ecgTextView.setText("nilla we made it");
-//                        }
-
                         break;
                     case DELIVER_SHOCK:
-                        if (data.equals("1")){
+                        if (data.equals("1a")){
                             tvSet(deliverShockTextView, "Shock Delivered");
-                        }else if (data.equals("0")){
+                        }else if (data.equals("0a")){
                             tvSet(deliverShockTextView, "Shock Preparing");
                         }
                         break;
                     case CAPACITOR:
-                        if(data.equals("0")){
+                        if(data.equals("0a")){
                             tvSet(capacitorTextView, "Capacitor Not Charged");
-                        }else if(data.equals("1")){
+                        }else if(data.equals("1a")){
                             tvSet(capacitorTextView, "Capacitor Almost Charged");
-                        }else if(data.equals("2")){
+                        }else if(data.equals("2a")){
                             tvSet(capacitorTextView, "Capacitor Charged!");
                         }
                         break;
+                    case CHECK_PADS:
+                        if(data.equals("0a")){
+                            tvSet(capacitorTextView, "Pads Not Connected");
+                        }else if(data.equals("1a")){
+                            tvSet(capacitorTextView, "Pads Connected");
+                        }
                     default:
                         break;
                 }
@@ -379,7 +391,7 @@ public class ArduinoTestingActivity extends AppCompatActivity {
     }
     public void capacitorButtonPressed(View view) {
 
-        sendArduinoNextState(ArduinoState.CAPACITOR);
+        sendArduinoNextState(ArduinoState.CHECK_PADS);
     }
     public void deliverShockButtonPressed(View view) {
 

@@ -54,7 +54,7 @@ public class BeatDetectionAndClassification
 	public int BeatQueCount = 0 ;  // Buffer of detection delays.
 	public int RRCount = 0 ;
 	public int InitBeatFlag = 1 ;
-	
+
 	/**
 	 * Create a new classifier with the given parameters.
 	 * @param bdacParameters The sampleRate-dependent parameters
@@ -203,6 +203,8 @@ public class BeatDetectionAndClassification
 			ClassifyResult cr = classifier.Classify(BeatBuffer,rr,noiseEst);
 			result.beatMatch = cr.beatMatch;
 			result.beatType = cr.tempClass;
+			result.beatAmp = cr.beatAmp ;
+			result.beatWidth = cr.beatWidth ;
 			fidAdj = cr.fidAdj;
 			fidAdj *= qrsDetParas.SAMPLE_RATE/bdacParas.BEAT_SAMPLE_RATE ;
 	      }
@@ -224,7 +226,9 @@ public class BeatDetectionAndClassification
 			fidAdj = qrsDetParas.MS80 ;
 		else if(fidAdj < -qrsDetParas.MS80)
 			fidAdj = -qrsDetParas.MS80 ;
-	
+
+
+
 		result.samplesSinceRWaveIfSuccess = detectDelay-fidAdj;
 		return(result) ;
 		}
@@ -238,6 +242,8 @@ public class BeatDetectionAndClassification
 		public int samplesSinceRWaveIfSuccess;
 		public int beatType;
 		public int beatMatch;
+		public int beatWidth;
+		public int beatAmp;
 		}
 	
 	private void DownSampleBeat(int[] beatOut, int[] beatIn)
