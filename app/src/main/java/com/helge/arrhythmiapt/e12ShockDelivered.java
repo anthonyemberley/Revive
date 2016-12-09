@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 public class e12ShockDelivered extends AppCompatActivity {
 
     //Set variable for time to spend on this page
-    int pagetime = 5000; // in milliseconds
+    int pagetime = 300000; // in milliseconds
     // Handler myHandler = new Handler();
     MediaPlayer mediaPlayer;
     @Override

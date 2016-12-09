@@ -33,7 +33,7 @@ public class e06PlacePads extends AppCompatActivity {
             @Override
             public void run() {
                 if(!toNextScreen) {
-                    final Intent mainIntent = new Intent(e06PlacePads.this, e08Analyzing.class);
+                    final Intent mainIntent = new Intent(e06PlacePads.this, e07BeginCPR.class);
                     startActivity(mainIntent);
                     finish();
                 }

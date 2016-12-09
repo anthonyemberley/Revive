@@ -28,7 +28,7 @@ public class e01StayCalmCall extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(e01StayCalmCall.this, e02ConnectPhone.class);
+                final Intent mainIntent = new Intent(e01StayCalmCall.this, e03RemovePads.class);
                 startActivity(mainIntent);
                 finish();
             }
