@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 public class e08Analyzing extends AppCompatActivity {
 
     //Set variable for time to spend on this page
-    int pagetime = 5000; // in milliseconds
+    int pagetime = 7000;// in milliseconds
     MediaPlayer mediaPlayer;
 
     @Override

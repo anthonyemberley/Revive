@@ -13,7 +13,7 @@ public class e06PlacePads extends AppCompatActivity {
     boolean toNextScreen = false;
 
     //Set variable for time to spend on this page
-    int pagetime = 6000; // in milliseconds
+    int pagetime = 9000; // in milliseconds
     MediaPlayer mediaPlayer;
 
     @Override

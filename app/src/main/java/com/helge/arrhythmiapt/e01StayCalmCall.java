@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 public class e01StayCalmCall extends AppCompatActivity {
 
     //Set variable for time to spend on this page
-    int pagetime = 8000; //in milliseconds
+    int pagetime = 9000; //in milliseconds
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

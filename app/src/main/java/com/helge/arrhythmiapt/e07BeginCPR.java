@@ -10,7 +10,7 @@ import android.view.View;
 public class e07BeginCPR extends AppCompatActivity {
 
     //Set variable for time to spend on this page
-    int pagetime = 45000; // in milliseconds
+    int pagetime = 55000; // in milliseconds
     boolean toNextScreen = false;
     MediaPlayer mediaPlayer;
     @Override
