@@ -13,7 +13,7 @@ public class e06PlacePads extends AppCompatActivity {
     boolean toNextScreen = false;
 
     //Set variable for time to spend on this page
-    int pagetime = 6000; // in milliseconds
+    int pagetime = 9000; // in milliseconds
     MediaPlayer mediaPlayer;
 
     @Override
@@ -33,7 +33,7 @@ public class e06PlacePads extends AppCompatActivity {
             @Override
             public void run() {
                 if(!toNextScreen) {
-                    final Intent mainIntent = new Intent(e06PlacePads.this, e08Analyzing.class);
+                    final Intent mainIntent = new Intent(e06PlacePads.this, e07BeginCPR.class);
                     startActivity(mainIntent);
                     finish();
                 }

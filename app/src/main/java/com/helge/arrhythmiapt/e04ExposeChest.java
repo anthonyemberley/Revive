@@ -11,7 +11,7 @@ public class e04ExposeChest extends AppCompatActivity {
 
     boolean toNextScreen = false;
     MediaPlayer mediaPlayer;
-    int pagetime = 7000;
+    int pagetime = 8000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +27,7 @@ public class e04ExposeChest extends AppCompatActivity {
             @Override
             public void run() {
                 if(!toNextScreen) {
-                    final Intent mainIntent = new Intent(e04ExposeChest.this, e05PrepPads.class);
+                    final Intent mainIntent = new Intent(e04ExposeChest.this, e06PlacePads.class);
                     startActivity(mainIntent);
                     finish();
                 }
@@ -44,7 +44,7 @@ public class e04ExposeChest extends AppCompatActivity {
     }
 
     public void gotoe05(View view) {
-        Intent intent = new Intent(this, e05PrepPads.class);
+        Intent intent = new Intent(this, e06PlacePads.class);
         toNextScreen = true;
         mediaPlayer.stop();
         startActivity(intent);
