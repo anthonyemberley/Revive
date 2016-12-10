@@ -25,14 +25,14 @@ public class e12ShockDelivered extends AppCompatActivity {
         }
 
         //Set up the timer for staying on this  //myHandler = new Handler();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                final Intent mainIntent = new Intent(e12ShockDelivered.this, e13StartCPR.class);
-                startActivity(mainIntent);
-                finish();
-            }
-        }, pagetime);
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                final Intent mainIntent = new Intent(e12ShockDelivered.this, e13StartCPR.class);
+//                startActivity(mainIntent);
+//                finish();
+//            }
+//        }, pagetime);
     }
 
     @Override

@@ -9,14 +9,14 @@
     <application
         android:name=".ArrhythmiaPTApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/stethoscopeheart"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <service
             android:name=".UsbService"
-            android:enabled="true"></service>
+            android:enabled="true" />
+
         <activity
             android:name=".LoginActivity"
             android:screenOrientation="portrait">
@@ -25,6 +25,18 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            />
+        </activity>
+        <activity
+            android:name=".FirstTutorialScreen"
+            android:screenOrientation="portrait">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter>/> -->
         </activity>
         <activity
             android:name=".RegisterActivity"
@@ -38,7 +50,6 @@
         <activity
             android:name=".Notes.NoteEditActivity"
             android:screenOrientation="portrait" />
-
 
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
@@ -55,83 +66,81 @@
             android:name=".Notes.SymptomActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".FirstTutorialScreen"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".e01StayCalmCall"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e02ConnectPhone"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e03RemovePads"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e04ExposeChest"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e07BeginCPR"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e05PrepPads"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e08Analyzing"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e11ReadyToShock"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e12ShockDelivered"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".c01FirstHand"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".c02SecondHand"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".c03PressMotion"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".b02UseCase"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e10Advised"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e10_12NotAdvised"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e13StartCPR"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".e06PlacePads"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".c04CprBeat"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ArduinoTestingActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".f00Questions"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".f01ReplacePads"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".f02SafetyCheck"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".f03BatteryPower"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".f04CellSignal"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".f05Instructions"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".e99PadsDisconnected"></activity>
     </application>
 
 </manifest>

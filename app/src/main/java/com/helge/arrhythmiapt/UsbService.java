@@ -42,8 +42,20 @@ public class UsbService extends Service {
     private static final String ACTION_USB_PERMISSION = "com.a2009pink.revive.USB_PERMISSION";
     private static final int BAUD_RATE = 9600; // BaudRate. Change this value if you need
     public static boolean SERVICE_CONNECTED = false;
+    public static ArduinoState currentArduinoState = ArduinoState.STATIC;
+
 
     private IBinder binder = new UsbBinder();
+
+    private enum ArduinoState {
+        STATIC, ECG, CAPACITOR, DELIVER_SHOCK, CHECK_PADS
+    }
+
+    String STATIC_ARDUINO_CODE = "0";
+    String ECG_ARDUINO_CODE = "1";
+    String CAPACITOR_ARDUINO_CODE = "2";
+    String DELIVER_SHOCK_ARDUINO_CODE = "3";
+    String CHECK_PADS_ARDUINO_CODE = "4";
 
     private Context context;
     private Handler mHandler;
@@ -63,6 +75,12 @@ public class UsbService extends Service {
         public void onReceivedData(byte[] arg0) {
             try {
                 String data = new String(arg0, "UTF-8");
+                if(data.equals("!a")){
+                    Intent i = new Intent();
+                    i.setClass(UsbService.this, e99PadsDisconnected.class);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(i);
+                }
                 if (mHandler != null)
                     mHandler.obtainMessage(MESSAGE_FROM_SERIAL_PORT, data).sendToTarget();
             } catch (UnsupportedEncodingException e) {
@@ -81,6 +99,36 @@ public class UsbService extends Service {
                 mHandler.obtainMessage(CTS_CHANGE).sendToTarget();
         }
     };
+
+
+    private synchronized void sendArduinoNextState(ArduinoState nextState){
+        String sendString = "";
+        switch (nextState) {
+            case ECG:
+                sendString = ECG_ARDUINO_CODE;
+                break;
+            case DELIVER_SHOCK:
+                sendString = DELIVER_SHOCK_ARDUINO_CODE;
+                break;
+            case STATIC:
+                sendString = STATIC_ARDUINO_CODE;
+                break;
+            case CAPACITOR:
+                sendString = CAPACITOR_ARDUINO_CODE;
+                break;
+            case CHECK_PADS:
+                sendString = CHECK_PADS_ARDUINO_CODE;
+            default:
+                break;
+        }
+
+
+        if(serialPort != null){
+            serialPort.write(sendString.getBytes());
+            currentArduinoState = nextState;
+        }
+
+    }
 
     /*
      * State changes in the DSR line will be received here

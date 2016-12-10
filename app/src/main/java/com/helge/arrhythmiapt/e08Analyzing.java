@@ -20,7 +20,7 @@ public class e08Analyzing extends AppCompatActivity {
         //Set up the corresponding audio file, play when page opens
         mediaPlayer = MediaPlayer.create(this, R.raw.e08analyzing);
         if(!mediaPlayer.isPlaying()) {
-            mediaPlayer.start();
+            //mediaPlayer.start();
             // mediaPlayer.setLooping(true);
         }
 

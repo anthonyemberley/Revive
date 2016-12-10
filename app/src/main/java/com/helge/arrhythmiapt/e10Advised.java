@@ -19,7 +19,7 @@ public class e10Advised extends AppCompatActivity {
         //Set up the corresponding audio file, play when page opens
         mediaPlayer = MediaPlayer.create(this, R.raw.e10advised);
         if(!mediaPlayer.isPlaying()) {
-            mediaPlayer.start();
+            //mediaPlayer.start();
             // mediaPlayer.setLooping(true);
         }
 
