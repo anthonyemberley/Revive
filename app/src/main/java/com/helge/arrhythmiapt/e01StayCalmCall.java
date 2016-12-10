@@ -17,7 +17,7 @@ public class e01StayCalmCall extends AppCompatActivity {
         setContentView(R.layout.activity_e01_stay_calm_call);
 
         //Set up the corresponding audio file, play when page opens
-        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e01staycalmcalling);
+        MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.e01staycalm);
         if(!mediaPlayer.isPlaying()){
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -28,10 +28,11 @@ public class e01StayCalmCall extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                final Intent mainIntent = new Intent(e01StayCalmCall.this, e03RemovePads.class);
+                final Intent mainIntent = new Intent(e01StayCalmCall.this, e02ConnectPhone.class);
                 startActivity(mainIntent);
                 finish();
             }
         }, pagetime);
     }
+
 }

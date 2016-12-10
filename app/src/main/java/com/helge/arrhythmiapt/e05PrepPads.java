@@ -1,5 +1,7 @@
 package com.helge.arrhythmiapt;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -21,7 +23,7 @@ public class e05PrepPads extends AppCompatActivity {
         setContentView(R.layout.activity_e05_prep_pads);
 
         //Set up the corresponding audio file, play when page opens
-        mediaPlayer = MediaPlayer.create(this, R.raw.e07preppads);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e05preppads);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -70,6 +72,14 @@ public class e05PrepPads extends AppCompatActivity {
         }, pagetime);*/
     }
 
+    @Override
+    protected void onPause() {
+        super.onStart();
+        toNextScreen = true;
+
+        mediaPlayer.stop();
+    };
+
     public void gotoe05(View view) {
         Intent intent = new Intent(this, e04ExposeChest.class);
         toNextScreen = true;
@@ -98,9 +108,17 @@ public class e05PrepPads extends AppCompatActivity {
     }
 
     public void gotob01(View view) {
-        Intent intent = new Intent(this, FirstTutorialScreen.class);
-        mediaPlayer.stop();
-        toNextScreen = true;
-        startActivity(intent);
+        new AlertDialog.Builder(this)
+                .setTitle("Revive")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent intent = new Intent(e05PrepPads.this, FirstTutorialScreen.class);
+                        mediaPlayer.stop();
+                        startActivity(intent);
+                    }})
+                .setNegativeButton("No", null).show();
+
     }
 }

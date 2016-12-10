@@ -19,7 +19,7 @@ public class e02ConnectPhone extends AppCompatActivity {
         setContentView(R.layout.activity_e02_connect_phone);
 
         //Set up the corresponding audio file, play when page opens
-        mediaPlayer = MediaPlayer.create(this, R.raw.e02connectphone);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e02redcap);
         if(!mediaPlayer.isPlaying()){
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -45,6 +45,15 @@ public class e02ConnectPhone extends AppCompatActivity {
         mediaPlayer.stop();
         startActivity(intent);
     }
+
+    @Override
+    protected void onPause() {
+        super.onStart();
+        toNextScreen = true;
+
+
+        mediaPlayer.stop();
+    };
 
     public void gotoe03(View view) {
         Intent intent = new Intent(this, e03RemovePads.class);

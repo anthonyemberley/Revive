@@ -1,5 +1,7 @@
 package com.helge.arrhythmiapt;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -19,7 +21,7 @@ public class e07BeginCPR extends AppCompatActivity {
         setContentView(R.layout.activity_e07_begin_cpr);
 
         //Set up the corresponding audio file, play when page opens
-        mediaPlayer = MediaPlayer.create(this, R.raw.e12startcpr);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e13startcpr);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -39,6 +41,15 @@ public class e07BeginCPR extends AppCompatActivity {
         }, pagetime);
     }
 
+    @Override
+    protected void onPause() {
+        super.onStart();
+        mediaPlayer.stop();
+        toNextScreen = true;
+
+    };
+
+
     public void gotoe08(View view) {
         Intent intent = new Intent(this, e08Analyzing.class);
         toNextScreen = true;
@@ -47,8 +58,17 @@ public class e07BeginCPR extends AppCompatActivity {
     }
 
     public void gotob01(View view) {
-        Intent intent = new Intent(this, FirstTutorialScreen.class);
-        mediaPlayer.stop();
-        startActivity(intent);
+        new AlertDialog.Builder(this)
+                .setTitle("Revive")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent intent = new Intent(e07BeginCPR.this, FirstTutorialScreen.class);
+                        mediaPlayer.stop();
+                        startActivity(intent);
+                    }})
+                .setNegativeButton("No", null).show();
+
     }
 }

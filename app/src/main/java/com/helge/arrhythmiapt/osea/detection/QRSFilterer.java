@@ -84,7 +84,7 @@ public class QRSFilterer {
 	/**
 	 * lpfilt() implements the digital filter represented by the difference equation:
 	 * 
-	 *   y[n] = b02usecase*y[n-1] - y[n-b02usecase] + x[n] - b02usecase*x[t-24 ms] + x[t-48 ms]
+	 *   y[n] = b02usecase*y[n-1] - y[n-b02usecase] + x[n] - b02usecase*x[t-e911contacted ms] + x[t-48 ms]
 	 * 
 	 * Note that the filter delay is (LPBUFFER_LGTH/b02usecase)-1
 	 * 

@@ -1,9 +1,11 @@
 package com.helge.arrhythmiapt;
 
 import android.animation.ObjectAnimator;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -146,7 +148,7 @@ public class e11ReadyToShock extends AppCompatActivity {
             }
         });
         //Set up the corresponding audio file, play when page opens
-        mediaPlayer = MediaPlayer.create(this, R.raw.e10_1breadytoshock);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e11readytoshock);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -156,10 +158,20 @@ public class e11ReadyToShock extends AppCompatActivity {
 
 
     public void gotob01(View view) {
-        Intent intent = new Intent(this, FirstTutorialScreen.class);
-        mediaPlayer.stop();
-        startActivity(intent);
+        new AlertDialog.Builder(this)
+                .setTitle("Revive")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent intent = new Intent(e11ReadyToShock.this, FirstTutorialScreen.class);
+                        mediaPlayer.stop();
+                        startActivity(intent);
+                    }})
+                .setNegativeButton("No", null).show();
+
     }
+
 
     public void presstoshock(View view) {
 
@@ -179,6 +191,7 @@ public class e11ReadyToShock extends AppCompatActivity {
     @Override
     public void onPause() {
         super.onPause();
+        mediaPlayer.stop();
         unregisterReceiver(mUsbReceiver);
         unbindService(usbConnection);
     }
@@ -195,16 +208,16 @@ public class e11ReadyToShock extends AppCompatActivity {
                     Toast.makeText(context, "USB Ready", Toast.LENGTH_SHORT).show();
                     break;
                 case UsbService.ACTION_USB_PERMISSION_NOT_GRANTED: // USB PERMISSION NOT GRANTED
-                    Toast.makeText(context, "USB Permission not granted", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "USB Permission not granted", Toast.LENGTH_SHORT).show();
                     break;
                 case UsbService.ACTION_NO_USB: // NO USB CONNECTED
-                    Toast.makeText(context, "No USB connected", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "No USB connected", Toast.LENGTH_SHORT).show();
                     break;
                 case UsbService.ACTION_USB_DISCONNECTED: // USB DISCONNECTED
-                    Toast.makeText(context, "USB disconnected", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "USB disconnected", Toast.LENGTH_SHORT).show();
                     break;
                 case UsbService.ACTION_USB_NOT_SUPPORTED: // USB NOT SUPPORTED
-                    Toast.makeText(context, "USB device not supported", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context, "USB device not supported", Toast.LENGTH_SHORT).show();
                     break;
             }
         }

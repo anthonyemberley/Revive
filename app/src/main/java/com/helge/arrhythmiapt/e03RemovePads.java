@@ -1,5 +1,7 @@
 package com.helge.arrhythmiapt;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -51,4 +53,27 @@ public class e03RemovePads extends AppCompatActivity {
         mediaPlayer.stop();
         startActivity(intent);
     }
+    @Override
+    protected void onPause() {
+        super.onStart();
+        toNextScreen = true;
+
+        mediaPlayer.stop();
+    };
+
+    public void gotob01(View view) {
+        new AlertDialog.Builder(this)
+                .setTitle("Revive")
+                .setMessage("Are you sure you want to exit?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent intent = new Intent(e03RemovePads.this, FirstTutorialScreen.class);
+                        mediaPlayer.stop();
+                        startActivity(intent);
+                    }})
+                .setNegativeButton("No", null).show();
+
+    }
+
 }

@@ -9,7 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 public class e12ShockDelivered extends AppCompatActivity {
 
     //Set variable for time to spend on this page
-    int pagetime = 600000; // in milliseconds
+    int pagetime = 6000; // in milliseconds
     // Handler myHandler = new Handler();
     MediaPlayer mediaPlayer;
     @Override
@@ -18,7 +18,7 @@ public class e12ShockDelivered extends AppCompatActivity {
         setContentView(R.layout.activity_e12_shock_delivered);
 
         //Set up the corresponding audio file, play when page opens
-        mediaPlayer = MediaPlayer.create(this, R.raw.e10_2shockdelivered);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e12shockdelivered);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -33,6 +33,12 @@ public class e12ShockDelivered extends AppCompatActivity {
                 finish();
             }
         }, pagetime);
+    }
+
+    @Override
+    protected void onPause(){
+        super.onStart();
+        mediaPlayer.stop();
     }
 
 }

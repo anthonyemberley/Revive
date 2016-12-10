@@ -1,5 +1,7 @@
 package com.helge.arrhythmiapt;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Handler;
@@ -46,6 +48,13 @@ public class c01FirstHand extends AppCompatActivity {
         mediaPlayer.stop();
         startActivity(intent);
     }
+    @Override
+    protected void onPause() {
+        super.onStart();
+        toNextScreen = true;
+
+        mediaPlayer.stop();
+    };
 
     public void gotoe13(View view) {
         Intent intent = new Intent(this, e13StartCPR.class);
@@ -55,9 +64,19 @@ public class c01FirstHand extends AppCompatActivity {
     }
 
     public void gotob01(View view) {
-        Intent intent = new Intent(this, FirstTutorialScreen.class);
-        toNextScreen = true;
-        mediaPlayer.stop();
-        startActivity(intent);
+
+        new AlertDialog.Builder(this)
+                .setTitle("Revive")
+                .setMessage("Are you sure you want to exit")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        Intent intent = new Intent(c01FirstHand.this, FirstTutorialScreen.class);
+                        toNextScreen = true;
+                        mediaPlayer.stop();
+                        startActivity(intent);
+                    }})
+                .setNegativeButton("No", null).show();
+
     }
 }

@@ -6,7 +6,7 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 
 /**
- * Created by emil on 24/04/16.
+ * Created by emil on e911contacted/04/16.
  */
 public class ArrhythmiaPTApplication extends android.app.Application {
     @Override

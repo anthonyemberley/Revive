@@ -9,12 +9,14 @@ import android.view.View;
 import android.widget.ImageView;
 
 public class c04CprBeat extends AppCompatActivity {
-    private int mInterval = 600; // 6 seconds by default, can be changed later
+    private int mInterval = 6000; // 6 seconds by default, can be changed later
     private Handler mHandler;
     public boolean imageIsShown;
     public ImageView checkImageView;
     public boolean readyToCheck;
     public MediaPlayer mediaPlayer;
+    public MediaPlayer mediaPlayerSteph;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,18 +32,40 @@ public class c04CprBeat extends AppCompatActivity {
 //            mediaPlayer.setLooping(true);
 //        }
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.cprbeep);
-        if(!mediaPlayer.isPlaying()){
-            mediaPlayer.start();
-            mediaPlayer.setLooping(true);
+        //add back metronome
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer = MediaPlayer.create(c04CprBeat.this, R.raw.cprbeep);
+                if(!mediaPlayer.isPlaying()){
+                    mediaPlayer.start();
+                    mediaPlayer.setLooping(true);
+                }
+
+            }
+        }, 2000);
+
+
+        mediaPlayerSteph = MediaPlayer.create(this, R.raw.c04cprbeat);
+        if(!mediaPlayerSteph.isPlaying()){
+            mediaPlayerSteph.start();
         }
+
     }
 
     public void homeButtonPressed(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
         mediaPlayer.stop();
+        mediaPlayerSteph.stop();
         startActivity(intent);
     }
+
+    @Override
+    protected void onPause() {
+        super.onStart();
+        mediaPlayer.stop();
+        mediaPlayerSteph.stop();
+    };
 
 
     @Override
@@ -87,6 +111,7 @@ public class c04CprBeat extends AppCompatActivity {
     public void gotoc03(View view) {
         Intent intent = new Intent(this, c03PressMotion.class);
         mediaPlayer.stop();
+        mediaPlayerSteph.stop();
         startActivity(intent);
     }
 

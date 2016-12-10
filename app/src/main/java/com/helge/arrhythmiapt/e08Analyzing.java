@@ -18,7 +18,7 @@ public class e08Analyzing extends AppCompatActivity {
         setContentView(R.layout.activity_e08_analyzing);
 
         //Set up the corresponding audio file, play when page opens
-        mediaPlayer = MediaPlayer.create(this, R.raw.e09analyzing);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e08analyzing);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
@@ -34,5 +34,12 @@ public class e08Analyzing extends AppCompatActivity {
             }
         }, pagetime);
     }
+
+    @Override
+    protected void onPause() {
+        super.onStart();
+        mediaPlayer.stop();
+
+    };
 
 }

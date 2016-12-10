@@ -17,11 +17,13 @@ public class e10Advised extends AppCompatActivity {
         setContentView(R.layout.activity_e10_advised);
 
         //Set up the corresponding audio file, play when page opens
-        mediaPlayer = MediaPlayer.create(this, R.raw.e10_1astandclear);
+        mediaPlayer = MediaPlayer.create(this, R.raw.e10advised);
         if(!mediaPlayer.isPlaying()) {
             mediaPlayer.start();
             // mediaPlayer.setLooping(true);
         }
+
+
 
         //Set up the timer for staying on this page
         new Handler().postDelayed(new Runnable() {
@@ -33,4 +35,11 @@ public class e10Advised extends AppCompatActivity {
             }
         }, pagetime);
     }
+
+    @Override
+    protected void onPause() {
+        super.onStart();
+        mediaPlayer.stop();
+
+    };
 }

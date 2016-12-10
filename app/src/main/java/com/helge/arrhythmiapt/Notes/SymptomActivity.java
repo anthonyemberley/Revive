@@ -62,7 +62,7 @@ public class SymptomActivity extends AppCompatActivity {
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
                         timeEditText.setText( selectedHour + ":" + selectedMinute);
                     }
-                }, hour, minute, true);//Yes 24 hour time
+                }, hour, minute, true);//Yes e911contacted hour time
                 mTimePicker.setTitle("Select Time");
                 mTimePicker.show();
             }
