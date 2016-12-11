@@ -13,7 +13,7 @@ public class e04ExposeChest extends AppCompatActivity {
 
     boolean toNextScreen = false;
     MediaPlayer mediaPlayer;
-    int pagetime = 8000;
+    int pagetime = 6000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
