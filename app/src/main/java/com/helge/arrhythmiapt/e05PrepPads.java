@@ -14,7 +14,7 @@ public class e05PrepPads extends AppCompatActivity {
     String kidOrAdult = "";
 
     //Set variable for time to spend on this page
-    int pagetime = 8000; // in milliseconds
+    int pagetime = 5000; // in milliseconds
     boolean toNextScreen = false;
     MediaPlayer mediaPlayer;
     @Override

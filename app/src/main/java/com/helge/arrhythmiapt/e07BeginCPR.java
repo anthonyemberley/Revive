@@ -23,7 +23,7 @@ import java.util.Set;
 public class e07BeginCPR extends AppCompatActivity {
 
     //Set variable for time to spend on this page
-    int pagetime = 55000; // in milliseconds
+    int pagetime = 10000; // in milliseconds
     boolean toNextScreen = false;
     MediaPlayer mediaPlayer;
     String CAPACITOR_ARDUINO_CODE = "2";
