@@ -9,13 +9,15 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.helge.arrhythmiapt.FirstTutorialScreen">
+    tools:context="com.pink2016.revive.FirstTutorialScreen">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:srcCompat="@drawable/firstscreen"
         android:id="@+id/imageView"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:cropToPadding="false"
+        android:scaleType="fitXY" />
 </RelativeLayout>

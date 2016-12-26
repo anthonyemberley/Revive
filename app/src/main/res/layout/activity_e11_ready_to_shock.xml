@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.helge.arrhythmiapt.e11ReadyToShock">
+    tools:context="com.pink2016.revive.e11ReadyToShock">
 
     <ImageView
         android:layout_width="match_parent"
@@ -17,7 +17,8 @@
         app:srcCompat="@drawable/e11readytoshock"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/imageView11" />
+        android:id="@+id/imageView11"
+        android:scaleType="fitXY" />
 
     <Button
         android:id="@+id/gotob01"
@@ -45,10 +46,10 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:max="100"
         android:progress="0"
-        android:layout_marginTop="39dp"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_alignTop="@+id/presstoshock"
+        android:layout_height="240dp"
+        android:layout_width="150dp"
+        android:layout_marginBottom="168dp"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
 

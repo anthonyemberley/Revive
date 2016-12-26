@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.helge.arrhythmiapt.e01StayCalmCall">
+    tools:context="com.pink2016.revive.e01StayCalmCall">
 
     <ImageView
         android:layout_width="match_parent"
@@ -17,5 +17,6 @@
         app:srcCompat="@drawable/e01staycalm"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/imageView2" />
+        android:id="@+id/imageView2"
+        android:scaleType="fitXY" />
 </RelativeLayout>

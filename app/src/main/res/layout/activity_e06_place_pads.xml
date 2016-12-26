@@ -9,17 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.helge.arrhythmiapt.e06PlacePads">
-
-    <Button
-        android:layout_width="130dp"
-        android:layout_height="60dp"
-        android:id="@+id/gotoe07"
-        android:onClick="gotoe07"
-        android:background="@null"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="606dp" />
+    tools:context="com.pink2016.revive.e06PlacePads">
 
     <Button
         android:layout_height="60dp"
@@ -45,5 +35,15 @@
         app:srcCompat="@drawable/e06placepads"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/imageView9" />
+        android:id="@+id/imageView9"
+        android:scaleType="fitXY" />
+
+    <Button
+        android:layout_width="130dp"
+        android:layout_height="60dp"
+        android:id="@+id/gotoe07"
+        android:onClick="gotoe07"
+        android:background="@null"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.helge.arrhythmiapt.Notes.SymptomActivity"
+    tools:context="com.pink2016.revive.Notes.SymptomActivity"
     android:id="@+id/c"
     android:background="@color/backgroundColor">
 

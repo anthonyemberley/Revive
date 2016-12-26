@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.helge.arrhythmiapt.e07BeginCPR">
+    tools:context="com.pink2016.revive.e07BeginCPR">
 
     <Button
         android:layout_height="60dp"
@@ -18,7 +18,9 @@
         android:id="@+id/gotoe08"
         android:background="@null"
         android:onClick="gotoe08"
-        android:layout_width="130dp" />
+        android:layout_width="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
     <Button
         android:layout_width="80dp"
@@ -34,5 +36,6 @@
         android:layout_height="match_parent"
         app:srcCompat="@drawable/e07begincpr"
         android:id="@+id/imageView7"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:scaleType="fitXY" />
 </RelativeLayout>

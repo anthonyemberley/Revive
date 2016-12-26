@@ -9,7 +9,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.helge.arrhythmiapt.c01FirstHand">
+    tools:context="com.pink2016.revive.c01FirstHand">
 
     <Button
         android:layout_height="60dp"
@@ -35,7 +35,8 @@
         app:srcCompat="@drawable/c01firsthand"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/imageView15" />
+        android:id="@+id/imageView15"
+        android:scaleType="fitXY" />
 
     <Button
         android:layout_width="130dp"
